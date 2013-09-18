@@ -1,0 +1,65 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.menu-bar {
+    -fx-background-color: #aeb5ba, linear-gradient(to bottom, #ecf4fa 0%, #ced4d9 100%);
+    -fx-background-insets: 0, 0 0 1 0;
+}
+
+.menu-bar .menu .label {
+    -fx-text-fill: #2d3e4c;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: linear-gradient(to right, #ecf4fa 0%, #ced4d9 100%);
+    -fx-padding: 0 3 0 3;
+}
+
+.scroll-pane {
+    -fx-background-insets: 0, 0;
+    -fx-padding: 0;
+}
+
+.form {
+    -fx-background-color: #aeb5ba, linear-gradient(to bottom, #ecf4fa 0%, #ced4d9 100%);
+}
+
+.details-header,
+.cache-header {
+    -fx-background-color: linear-gradient(to bottom, #aaaaaa 0%, #888888 100%);
+}
+
+.cache-list-name {
+    -fx-font-size: 1.2em;
+}
+
+.cache-list-icon {
+    -fx-text-fill: #444444;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 3, 0.0, 1, 1);
+}
+
+.cache-list-found .cache-list-icon {
+    -fx-text-fill: #669900;
+}
+
+.cache-list-action-icons {
+    -fx-padding: 4;
+    -fx-margin: 0 8;
+    -fx-text-fill: #ffffff;
+}
+
+.text-input:readonly,
+.combo-box-base:disabled,
+.text-input:disabled {
+    -fx-opacity: 0.9;
+    -fx-background-color: linear-gradient(to bottom, #eeeeee 0%, #dddddd 100%);
+}
+
+.slider:disabled {
+    -fx-opacity: 0.8;
+}
