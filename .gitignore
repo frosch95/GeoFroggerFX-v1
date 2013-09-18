@@ -1,2 +1,7 @@
 # compiled classes
 *.class
+
+# idea project files
+*.iml
+out/
+.idea/
