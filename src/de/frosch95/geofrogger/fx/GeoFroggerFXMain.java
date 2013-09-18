@@ -46,7 +46,8 @@ public class GeoFroggerFXMain extends Application {
   @Override
   public void start(Stage stage) throws Exception {
     Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/fontawesome-webfont.ttf").toExternalForm(), 12);
-    Parent root = FXMLLoader.load(getClass().getResource("geofrogger.fxml"), ResourceBundle.getBundle("de.frosch95.geofrogger.fx.geofrogger"));
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("geofrogger.fxml"), ResourceBundle.getBundle("de.frosch95.geofrogger.fx.geofrogger"));
+    Parent root = (Parent)fxmlLoader.load();
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
