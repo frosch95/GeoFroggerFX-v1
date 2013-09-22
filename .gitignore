@@ -8,3 +8,7 @@ out/
 
 #database files
 *.db
+
+#gradle files
+.gradle/
+build/
