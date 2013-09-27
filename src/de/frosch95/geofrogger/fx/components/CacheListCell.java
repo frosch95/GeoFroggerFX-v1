@@ -35,8 +35,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
-import static de.frosch95.geofrogger.fx.JavaFXUtils.addClasses;
-import static de.frosch95.geofrogger.fx.JavaFXUtils.removeClasses;
+import static de.frosch95.geofrogger.fx.utils.JavaFXUtils.addClasses;
+import static de.frosch95.geofrogger.fx.utils.JavaFXUtils.removeClasses;
 
 /**
  * Multi-Column-Row list cell to shows the most important data in a list.

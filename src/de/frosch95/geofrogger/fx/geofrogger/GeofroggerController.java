@@ -23,7 +23,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package de.frosch95.geofrogger.fx;
+package de.frosch95.geofrogger.fx.geofrogger;
 
 import de.frosch95.geofrogger.application.ProgressEvent;
 import de.frosch95.geofrogger.application.ServiceManager;
@@ -49,7 +49,6 @@ import org.controlsfx.dialog.Dialog;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;

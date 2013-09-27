@@ -23,7 +23,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package de.frosch95.geofrogger.fx;
+package de.frosch95.geofrogger.fx.cachelist;
 
 import de.frosch95.geofrogger.application.SessionContext;
 import de.frosch95.geofrogger.application.SessionContextListener;
@@ -42,7 +42,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static de.frosch95.geofrogger.fx.JavaFXUtils.addClasses;
+import static de.frosch95.geofrogger.fx.utils.JavaFXUtils.addClasses;
 
 /**
  * FXML Controller class

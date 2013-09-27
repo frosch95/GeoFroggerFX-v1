@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import java.net.URL?>
 <VBox prefHeight="800.0" prefWidth="1280.0" minHeight="600.0" minWidth="800.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="de.frosch95.geofrogger.fx.GeofroggerController">
+      fx:controller="de.frosch95.geofrogger.fx.geofrogger.GeofroggerController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -28,10 +28,10 @@
     <SplitPane dividerPositions="0.3779342723004695" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0"
                VBox.vgrow="ALWAYS">
       <items>
-        <fx:include source="cache_list.fxml" fx:id="cacheListContent"/>
+        <fx:include source="../cachelist/cache_list.fxml" fx:id="cacheListContent"/>
         <ScrollPane fitToHeight="true" fitToWidth="true" pannable="false" prefHeight="-1.0" prefWidth="-1.0">
           <content>
-            <fx:include source="cache_details.fxml" fx:id="cacheDetailsContent"/>
+            <fx:include source="../cachedetails/cache_details.fxml" fx:id="cacheDetailsContent"/>
           </content>
         </ScrollPane>
       </items>
@@ -55,6 +55,6 @@
     </HBox>
   </children>
   <stylesheets>
-    <URL value="@geofrogger.css"/>
+    <URL value="@../geofrogger.css"/>
   </stylesheets>
 </VBox>

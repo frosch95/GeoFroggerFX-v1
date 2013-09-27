@@ -23,10 +23,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package de.frosch95.geofrogger.fx;
+package de.frosch95.geofrogger.fx.cachedetails;
 
 import de.frosch95.geofrogger.application.SessionContext;
 import de.frosch95.geofrogger.application.SessionContextListener;
+import de.frosch95.geofrogger.fx.components.MapPaneWrapper;
 import de.frosch95.geofrogger.fx.components.GeocachingIcons;
 import de.frosch95.geofrogger.fx.components.IconManager;
 import de.frosch95.geofrogger.model.Cache;

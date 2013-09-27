@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.frosch95.geofrogger.fx.MapPaneWrapper?>
+<?import de.frosch95.geofrogger.fx.components.MapPaneWrapper?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import java.net.URL?>
 <AnchorPane fx:id="cacheDetailPane" styleClass="details-pane" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="de.frosch95.geofrogger.fx.CacheDetailsController">
+            fx:controller="de.frosch95.geofrogger.fx.cachedetails.CacheDetailsController">
   <children>
     <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="details-header"
           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -142,6 +142,6 @@
     </TabPane>
   </children>
   <stylesheets>
-    <URL value="@geofrogger.css"/>
+    <URL value="@../geofrogger.css"/>
   </stylesheets>
 </AnchorPane>

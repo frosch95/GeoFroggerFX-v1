@@ -23,7 +23,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package de.frosch95.geofrogger.fx;
+package de.frosch95.geofrogger.fx.utils;
 
 import javafx.scene.Node;
 

@@ -33,10 +33,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Andreas
@@ -46,7 +43,7 @@ public class GeoFroggerFXMain extends Application {
   @Override
   public void start(Stage stage) throws Exception {
     loadCustomFonts();
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("geofrogger.fxml"), ResourceBundle.getBundle("de.frosch95.geofrogger.fx.geofrogger"));
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("geofrogger/geofrogger.fxml"), ResourceBundle.getBundle("de.frosch95.geofrogger.fx.geofrogger"));
     Parent root = (Parent)fxmlLoader.load();
     Scene scene = new Scene(root);
     stage.setScene(scene);

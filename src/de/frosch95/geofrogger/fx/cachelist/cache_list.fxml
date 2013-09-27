@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import java.net.URL?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="de.frosch95.geofrogger.fx.CacheListController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="de.frosch95.geofrogger.fx.cachelist.CacheListController">
   <children>
     <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="cache-header"
           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -33,6 +33,6 @@
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0"/>
   </children>
   <stylesheets>
-    <URL value="@geofrogger.css"/>
+    <URL value="@../geofrogger.css"/>
   </stylesheets>
 </AnchorPane>
