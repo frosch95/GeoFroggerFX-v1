@@ -39,6 +39,8 @@ import static de.frosch95.geofrogger.fx.JavaFXUtils.addClasses;
 import static de.frosch95.geofrogger.fx.JavaFXUtils.removeClasses;
 
 /**
+ * Multi-Column-Row list cell to shows the most important data in a list.
+ *
  * @author Andreas
  */
 public class CacheListCell extends ListCell<Cache> {
