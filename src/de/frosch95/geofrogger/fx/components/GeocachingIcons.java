@@ -26,6 +26,7 @@
 package de.frosch95.geofrogger.fx.components;
 
 import de.frosch95.geofrogger.model.Cache;
+import de.frosch95.geofrogger.model.Type;
 import javafx.scene.image.Image;
 
 /**
@@ -41,39 +42,39 @@ public class GeocachingIcons {
     String iconName = "/icons/iconmonstr-map-5-icon.png";
 
     switch (cache.getType()) {
-      case "Multi-cache":
+      case MULTI_CACHE:
         iconName = "/icons/iconmonstr-map-6-icon.png";
         break;
 
-      case "Traditional Cache":
+      case TRADITIONAL_CACHE:
         iconName = "/icons/iconmonstr-map-5-icon.png";
         break;
 
-      case "Unknown Cache":
+      case UNKNOWN_CACHE:
         iconName = "/icons/iconmonstr-help-3-icon.png";
         break;
 
-      case "Earthcache":
+      case EARTH_CACHE:
         iconName = "/icons/iconmonstr-globe-4-icon.png";
         break;
 
-      case "Letterbox Hybrid":
+      case LETTERBOX:
         iconName = "/icons/iconmonstr-email-4-icon.png";
         break;
 
-      case "Event Cache":
+      case EVENT:
         iconName = "/icons/iconmonstr-calendar-4-icon.png";
         break;
 
-      case "Wherigo Cache":
+      case WHERIGO:
         iconName = "/icons/iconmonstr-navigation-6-icon.png";
         break;
 
-      case "Webcam Cache":
+      case WEBCAM_CACHE:
         iconName = "/icons/iconmonstr-webcam-3-icon.png";
         break;
 
-      case "Virtual Cache":
+      case VIRTUAL_CACHE:
         iconName = "/icons/iconmonstr-network-2-icon.png";
         break;
 

@@ -25,12 +25,11 @@
  */
 package de.frosch95.geofrogger.sql;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
 
 /**
  * @author Andreas
  */
 public interface DatabaseService {
-  Connection getConnection() throws SQLException;
+  EntityManager getEntityManager();
 }

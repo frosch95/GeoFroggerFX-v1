@@ -25,13 +25,16 @@
  */
 package de.frosch95.geofrogger.model;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
  * @author Andreas Billmann
  */
+@Entity
 public class Log {
 
+  @Id
   private Long id;
   private LocalDateTime date;
   private String type;
@@ -63,6 +66,7 @@ public class Log {
     this.type = type;
   }
 
+  @OneToOne(cascade = CascadeType.PERSIST)
   public User getFinder() {
     return finder;
   }

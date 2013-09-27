@@ -25,14 +25,20 @@
  */
 package de.frosch95.geofrogger.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.net.URL;
 import java.time.LocalDateTime;
 
 /**
  * @author Andreas Billmann
  */
+@Entity
 public class Waypoint {
 
+  @Id
   private Long id;
   private double latitude;
   private double longitude;

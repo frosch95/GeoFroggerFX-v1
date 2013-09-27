@@ -183,7 +183,7 @@ public class CacheDetailsController implements Initializable, SessionContextList
     placedByTextfield.setText(currentCache.getPlacedBy());
     ownerTextfield.setText(currentCache.getOwner().getName());
     date.setValue(currentCache.getMainWayPoint().getTime().toLocalDate());
-    typeTextfield.setText(currentCache.getType());
+    typeTextfield.setText(currentCache.getType().toGroundspeakString());
     containerTextfield.setText(currentCache.getContainer());
     fillShortDescription(currentCache);
     fillLongDescription(currentCache);

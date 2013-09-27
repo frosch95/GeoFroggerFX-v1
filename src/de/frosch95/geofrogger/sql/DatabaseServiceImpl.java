@@ -25,94 +25,30 @@
  */
 package de.frosch95.geofrogger.sql;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * @author Andreas
  */
 public class DatabaseServiceImpl implements DatabaseService {
 
-  private static final String CREATE_GEOCACHE_TABLE =
-      "CREATE TABLE geocache ("
-          + "id BIGINT,"
-          + "available BOOLEAN,"
-          + "archived BOOLEAN,"
-          + "name VARCHAR(255),"
-          + "placedBy VARCHAR(255),"
-          + "ownerId BIGINT,"
-          + "type VARCHAR(255),"
-          + "container VARCHAR(255),"
-          + "difficulty VARCHAR(10),"
-          + "terrain VARCHAR(10),"
-          + "country VARCHAR(255),"
-          + "state VARCHAR(255),"
-          + "shortDescription CLOB,"
-          + "shortDescriptionHtml BOOLEAN,"
-          + "longDescription CLOB,"
-          + "longDescriptionHtml BOOLEAN,"
-          + "encodedHints CLOB,"
-          + "mainWaypointId BIGINT"
-          + ");";
-
-  private static final String WAYPOINT_TABLE =
-      "CREATE TABLE waypoint ("
-          + "id BIGINT,"
-          + "latitude DECIMAL(9,6),"
-          + "longitude DECIMAL(9,6),"
-          + "name VARCHAR(255),"
-          + "time TIMESTAMP,"
-          + "description CLOB,"
-          + "url VARCHAR(255),"
-          + "urlName VARCHAR(255),"
-          + "symbol VARCHAR(255),"
-          + "type VARCHAR(255)"
-          + ");";
-
-
-  private Connection con;
+  private static final String PERSISTENCE_UNIT_NAME = "geocaches";
+  private EntityManagerFactory factory;
+  private EntityManager em;
 
   public DatabaseServiceImpl() {
-    try {
-      con = DriverManager.getConnection("jdbc:h2:./geofroggerfxdb;IFEXISTS=TRUE", "sa", "sa");
-      con.setAutoCommit(false);
-    } catch (SQLException ex) {
-      setupDatabase();
-    }
+
+
+    factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    em = factory.createEntityManager();
   }
 
   @Override
-  public Connection getConnection() throws SQLException {
-    if (con == null) {
-      throw new SQLException("no connection available");
-    }
-    return con;
+  public EntityManager getEntityManager() {
+    assert (em != null) : "no entity manager available";
+    return em;
   }
-
-  private void setupDatabase() {
-    Statement statement = null;
-    try {
-      Class.forName("org.h2.Driver");
-      con = DriverManager.getConnection("jdbc:h2:./geofroggerfxdb", "sa", "sa");
-      con.setAutoCommit(false);
-      statement = con.createStatement();
-      statement.execute(CREATE_GEOCACHE_TABLE);
-      statement.execute(WAYPOINT_TABLE);
-      con.commit();
-    } catch (SQLException | ClassNotFoundException ex) {
-      Logger.getLogger(DatabaseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-      if (statement != null) try {
-        statement.close();
-      } catch (SQLException ex) {
-        Logger.getLogger(DatabaseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-      }
-    }
-  }
-
 
 }

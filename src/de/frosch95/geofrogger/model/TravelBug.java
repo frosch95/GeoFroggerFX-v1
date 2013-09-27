@@ -25,11 +25,17 @@
  */
 package de.frosch95.geofrogger.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * @author Andreas Billmann
  */
+@Entity
 public class TravelBug {
 
+  @Id
   private Long id;
   private String ref;
   private String name;

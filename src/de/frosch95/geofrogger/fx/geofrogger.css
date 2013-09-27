@@ -1,9 +1,6 @@
-/*
- * Empty Stylesheet file.
- */
-
-.mainFxmlClass {
-
+.root{
+    -fx-font-size: 10pt;
+    -fx-font-family: "Fira Sans";
 }
 
 .menu-bar {
@@ -35,7 +32,7 @@
 }
 
 .cache-list-name {
-    -fx-font-size: 1.2em;
+    -fx-font-weight: bold;
 }
 
 .cache-list-icon {
@@ -49,7 +46,6 @@
 
 .cache-list-action-icons {
     -fx-padding: 4;
-    -fx-margin: 0 8;
     -fx-text-fill: #ffffff;
 }
 

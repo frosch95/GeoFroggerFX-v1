@@ -25,20 +25,23 @@
  */
 package de.frosch95.geofrogger.model;
 
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * @author Andreas Billmann
  */
+@Entity
 public class Cache {
 
+  @Id
   private Long id;
   private boolean available;
   private boolean archived;
   private String name;
   private String placedBy;
   private User owner;
-  private String type;
+  private Type type;
   private String container;
   private List<Attribute> attributes;
   private String difficulty;
@@ -54,6 +57,7 @@ public class Cache {
   private List<TravelBug> travelBugs;
   private Waypoint mainWayPoint;
 
+  @OneToOne(fetch=FetchType.LAZY)
   public Waypoint getMainWayPoint() {
     return mainWayPoint;
   }
@@ -102,6 +106,7 @@ public class Cache {
     this.placedBy = placedBy;
   }
 
+  @OneToOne(fetch=FetchType.LAZY)
   public User getOwner() {
     return owner;
   }
@@ -110,11 +115,12 @@ public class Cache {
     this.owner = owner;
   }
 
-  public String getType() {
+  @Enumerated(EnumType.STRING)
+  public Type getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(Type type) {
     this.type = type;
   }
 
@@ -126,6 +132,7 @@ public class Cache {
     this.container = container;
   }
 
+  @ManyToMany(fetch=FetchType.LAZY)
   public List<Attribute> getAttributes() {
     return attributes;
   }
@@ -206,6 +213,7 @@ public class Cache {
     this.encodedHints = encodedHints;
   }
 
+  @OneToMany(fetch=FetchType.LAZY)
   public List<Log> getLogs() {
     return logs;
   }
@@ -214,6 +222,7 @@ public class Cache {
     this.logs = logs;
   }
 
+  @OneToMany(fetch=FetchType.LAZY)
   public List<TravelBug> getTravelBugs() {
     return travelBugs;
   }

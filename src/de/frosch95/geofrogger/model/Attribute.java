@@ -25,20 +25,27 @@
  */
 package de.frosch95.geofrogger.model;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * @author Andreas Billmann
  */
+@Entity
 public class Attribute {
 
-  private Integer id;
+  @Id
+  private Long id;
   private boolean inc;
   private String text;
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
