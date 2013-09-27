@@ -45,7 +45,7 @@ public class GeoFroggerFXMain extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/fontawesome-webfont.ttf").toExternalForm(), 12);
+    loadCustomFonts();
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("geofrogger.fxml"), ResourceBundle.getBundle("de.frosch95.geofrogger.fx.geofrogger"));
     Parent root = (Parent)fxmlLoader.load();
     Scene scene = new Scene(root);
@@ -53,13 +53,23 @@ public class GeoFroggerFXMain extends Application {
     stage.show();
   }
 
+  private void loadCustomFonts() {
+    Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraMonoOT-Bold.otf").toExternalForm(), 12);
+    Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraMonoOT-Regular.otf").toExternalForm(), 12);
+    Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-Bold.otf").toExternalForm(), 12);
+    Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-BoldItalic.otf").toExternalForm(), 12);
+    Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-Light.otf").toExternalForm(), 12);
+    Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-LightItalic.otf").toExternalForm(), 12);
+    Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-Medium.otf").toExternalForm(), 12);
+    Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-MediumItalic.otf").toExternalForm(), 12);
+    Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-Regular.otf").toExternalForm(), 12);
+    Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-RegularItalic.otf").toExternalForm(), 12);
+  }
+
   @Override
   public void stop() throws Exception {
-    try {
-      ServiceManager.getInstance().getDatabaseService().getConnection().close();
-    } catch (SQLException ex) {
-      Logger.getLogger(GeofroggerController.class.getName()).log(Level.SEVERE, null, ex);
-    }
+    System.out.println("stop");
+    ServiceManager.getInstance().getDatabaseService().getEntityManager().close();
     super.stop();
   }
 

@@ -197,6 +197,7 @@ public class GroundspeakGPXReader implements GPXReader {
       setType(waypointElement, mainWaypoint);
 
       final Element cacheElement = waypointElement.getChild(CACHE, groundspeakNamespace);
+      setId(cacheElement, mainWaypoint);
       parseCacheElement(cacheElement, cache);
     } catch (DataConversionException | MalformedURLException e) {
       // TODO: do some batch error handling
@@ -361,7 +362,7 @@ public class GroundspeakGPXReader implements GPXReader {
   }
 
   private void setId(Element attributeElement, Attribute attribute) throws DataConversionException {
-    attribute.setId(attributeElement.getAttribute(ID).getIntValue());
+    attribute.setId(attributeElement.getAttribute(ID).getLongValue());
   }
 
   private void setContainer(Element cacheElement, Cache cache) {
@@ -369,7 +370,7 @@ public class GroundspeakGPXReader implements GPXReader {
   }
 
   private void setType(Element cacheElement, Cache cache) {
-    cache.setType(cacheElement.getChild(TYPE, groundspeakNamespace).getTextTrim());
+    cache.setType(Type.groundspeakStringToType(cacheElement.getChild(TYPE, groundspeakNamespace).getTextTrim()));
   }
 
   private void setOwner(Element cacheElement, Cache cache) throws DataConversionException {
@@ -447,6 +448,10 @@ public class GroundspeakGPXReader implements GPXReader {
 
   private void setName(Element cacheElement, Cache cache) {
     cache.setName(cacheElement.getChild(NAME, groundspeakNamespace).getTextTrim());
+  }
+
+  private void setId(Element cacheElement, Waypoint waypoint) throws DataConversionException {
+    waypoint.setId(cacheElement.getAttribute(ID).getLongValue());
   }
 
   private void fireEvent(ProgressEvent event) {

@@ -27,7 +27,6 @@ package de.frosch95.geofrogger.fx;
 
 import de.frosch95.geofrogger.application.SessionContext;
 import de.frosch95.geofrogger.application.SessionContextListener;
-import de.frosch95.geofrogger.fx.components.AwesomeIcons;
 import de.frosch95.geofrogger.fx.components.CacheListCell;
 import de.frosch95.geofrogger.model.Cache;
 import javafx.application.Platform;
@@ -37,8 +36,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 
 import java.net.URL;
@@ -54,7 +51,6 @@ import static de.frosch95.geofrogger.fx.JavaFXUtils.addClasses;
  */
 public class CacheListController implements Initializable, SessionContextListener {
 
-  private static final String FONT_AWESOME = "FontAwesome";
   private static final String CACHE_LIST_ACTION_ICONS = "cache-list-action-icons";
   private final SessionContext sessionContext = SessionContext.getInstance();
 
@@ -83,17 +79,10 @@ public class CacheListController implements Initializable, SessionContextListene
 
     cacheListView.getSelectionModel().selectedItemProperty().addListener(
         (ChangeListener<Cache>) (ObservableValue<? extends Cache> ov, Cache oldValue, Cache newValue) ->
-            {
-              sessionContext.setData("current-cache", newValue);
-            }
+            sessionContext.setData("current-cache", newValue)
     );
 
-    filterIcon.setFont(Font.font(FONT_AWESOME, FontWeight.NORMAL, 16));
-    filterIcon.setText(AwesomeIcons.ICON_FILTER.toString());
     addClasses(filterIcon, CACHE_LIST_ACTION_ICONS);
-
-    sortIcon.setFont(Font.font(FONT_AWESOME, FontWeight.NORMAL, 16));
-    sortIcon.setText(AwesomeIcons.ICON_SORT.toString());
     addClasses(sortIcon, CACHE_LIST_ACTION_ICONS);
   }
 
@@ -109,7 +98,7 @@ public class CacheListController implements Initializable, SessionContextListene
   private void setCellFactory() {
     cacheListView.setCellFactory(
         (Callback<ListView<Cache>, CacheListCell>)
-            (ListView<Cache> p) -> new CacheListCell());
+        (ListView<Cache> p) -> new CacheListCell());
   }
 
   private void setSessionListener() {

@@ -94,7 +94,6 @@ public class GeofroggerController implements Initializable {
       + "\t- ControlsFX 8.0.2 developer preview 1\n"
       + "\t- jdom 2.x\n"
       + "\t- H2 1.3.173\n"
-      + "\t- Font Awesome by Dave Gandy\n"
       + "\t- Icons by http://iconmonstr.com/\n";
 
   private final SessionContext sessionContext = SessionContext.getInstance();
@@ -154,11 +153,6 @@ public class GeofroggerController implements Initializable {
 
   @FXML
   public void exit(ActionEvent actionEvent) {
-    try {
-      ServiceManager.getInstance().getDatabaseService().getConnection().close();
-    } catch (SQLException ex) {
-      Logger.getLogger(GeofroggerController.class.getName()).log(Level.SEVERE, null, ex);
-    }
     Platform.exit();
   }
 
