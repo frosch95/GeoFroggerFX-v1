@@ -59,3 +59,11 @@
 .slider:disabled {
     -fx-opacity: 0.8;
 }
+
+.menu-button.cache-list-action-icons {
+    -fx-padding: 0 0 0 0;
+}
+
+.menu-button.cache-list-action-icons .label{
+    -fx-padding: 2 2 2 2;
+}

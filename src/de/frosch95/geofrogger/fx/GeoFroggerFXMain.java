@@ -30,8 +30,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.scenicview.ScenicView;
 
 import java.util.ResourceBundle;
 
@@ -48,6 +51,12 @@ public class GeoFroggerFXMain extends Application {
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
+
+    scene.setOnKeyPressed(keyEvent -> {
+      if (isScenicViewShortcutPressed(keyEvent)) {
+        ScenicView.show(scene);
+      }
+    });
   }
 
   private void loadCustomFonts() {
@@ -61,6 +70,10 @@ public class GeoFroggerFXMain extends Application {
     Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-MediumItalic.otf").toExternalForm(), 12);
     Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-Regular.otf").toExternalForm(), 12);
     Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-RegularItalic.otf").toExternalForm(), 12);
+  }
+
+  private boolean isScenicViewShortcutPressed(final KeyEvent keyEvent) {
+    return keyEvent.isAltDown() && keyEvent.isControlDown() && keyEvent.getCode().equals(KeyCode.V);
   }
 
   @Override

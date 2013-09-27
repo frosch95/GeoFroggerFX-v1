@@ -12,18 +12,11 @@
       <children>
         <Label alignment="CENTER_LEFT" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="%label.text.cache.list"
                textAlignment="LEFT" textFill="WHITE" wrapText="false">
-          <font>
-            <Font size="16.0" fx:id="x1"/>
-          </font>
         </Label>
         <Label fx:id="cacheNumber" alignment="CENTER_LEFT" minWidth="60.0" prefWidth="-1.0" maxWidth="Infinity"
                style="&#10;" text="(0)" textAlignment="LEFT" textFill="WHITE" wrapText="false" HBox.hgrow="ALWAYS">
-          <font>
-            <Font size="16.0" fx:id="x1"/>
-          </font>
         </Label>
-        <Label fx:id="sortIcon"/>
-        <Label fx:id="filterIcon"/>
+        <MenuButton fx:id="menuIcon"/>
       </children>
       <padding>
         <Insets left="16.0" right="16.0" fx:id="x2"/>

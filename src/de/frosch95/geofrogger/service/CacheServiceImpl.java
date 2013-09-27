@@ -74,13 +74,20 @@ public class CacheServiceImpl implements CacheService {
   }
 
   @Override
-  public List<Cache> getAllCaches() {
+  @SuppressWarnings("unchecked")
+  public List<Cache> getAllCaches(CacheSortField sortField, SortDirection direction) {
 
-    EntityManager em = dbService.getEntityManager();
     List<Cache> caches = new ArrayList<>();
-    List<Cache> result = em.createQuery("select c from Cache c").getResultList();
-    if (result != null) {
-      caches = result;
+    try {
+      EntityManager em = dbService.getEntityManager();
+      String query = "select c from Cache c order by c."+sortField.getFieldName()+" "+direction.toString();
+      System.out.println("query: "+query);
+      List<Cache> result = em.createQuery(query).getResultList();
+      if (result != null) {
+        caches = result;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     return caches;

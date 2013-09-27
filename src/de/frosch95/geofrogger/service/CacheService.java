@@ -36,7 +36,7 @@ import java.util.List;
 public interface CacheService {
   void storeCaches(List<Cache> caches);
 
-  List<Cache> getAllCaches();
+  List<Cache> getAllCaches(CacheSortField sortField, SortDirection direction);
 
   void addListener(ProgressListener listener);
 }

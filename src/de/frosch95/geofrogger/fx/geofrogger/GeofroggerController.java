@@ -31,6 +31,8 @@ import de.frosch95.geofrogger.application.SessionContext;
 import de.frosch95.geofrogger.gpx.GPXReader;
 import de.frosch95.geofrogger.model.Cache;
 import de.frosch95.geofrogger.service.CacheService;
+import de.frosch95.geofrogger.service.CacheSortField;
+import de.frosch95.geofrogger.service.SortDirection;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -53,6 +55,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static de.frosch95.geofrogger.service.CacheSortField.*;
+import static de.frosch95.geofrogger.service.SortDirection.*;
 
 /**
  * FXML Controller class
@@ -170,7 +175,7 @@ public class GeofroggerController implements Initializable {
         @Override
         protected Void call() throws Exception {
           updateStatus("Load caches from database.", ProgressIndicator.INDETERMINATE_PROGRESS);
-          sessionContext.setData("cache-list", cacheService.getAllCaches());
+          sessionContext.setData("cache-list", cacheService.getAllCaches(NAME, ASC));
           updateStatus("All caches loaded.", 0);
           return null;
         }
@@ -209,7 +214,7 @@ public class GeofroggerController implements Initializable {
               updateStatus("All caches are stored in database", 0);
 
               updateStatus("Load caches from database.", ProgressIndicator.INDETERMINATE_PROGRESS);
-              sessionContext.setData("cache-list", cacheService.getAllCaches());
+              sessionContext.setData("cache-list", cacheService.getAllCaches(NAME, ASC));
               updateStatus("All caches loaded.", 0);
             }
           } catch (IOException ex) {
