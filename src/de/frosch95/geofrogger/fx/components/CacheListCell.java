@@ -118,7 +118,7 @@ public class CacheListCell extends ListCell<Cache> {
     name.setText(cache.getName());
     dt.setText("D: " + cache.getDifficulty() + " / T:" + cache.getTerrain());
 
-    if (CacheUtils.hasUserFoundCache(cache, new Long(3906456))) {
+    if (cache.isFound()) {
       foundIcon.setImage(IconManager.getIcon("/icons/iconmonstr-check-mark-11-icon.png", IconManager.IconSize.SMALL));
     } else {
       foundIcon.setImage(null);
@@ -129,7 +129,7 @@ public class CacheListCell extends ListCell<Cache> {
   }
 
   private void setStyleClassDependingOnFoundState(Cache cache) {
-    if (CacheUtils.hasUserFoundCache(cache, new Long(3906456))) {
+    if (cache.isFound()) {
       addClasses(this, CACHE_LIST_FOUND_CLASS);
       removeClasses(this, CACHE_LIST_NOT_FOUND_CLASS);
     } else {

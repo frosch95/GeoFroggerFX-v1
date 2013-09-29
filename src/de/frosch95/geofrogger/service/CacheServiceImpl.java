@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class CacheServiceImpl implements CacheService {
 
+  private static final int TRANSACTION_SIZE = 100;
   private final DatabaseService dbService = ServiceManager.getInstance().getDatabaseService();
-
   private final List<ProgressListener> listeners = new ArrayList<>();
 
   @Override
@@ -38,6 +38,8 @@ public class CacheServiceImpl implements CacheService {
   public void storeCaches(List<Cache> caches) {
       EntityManager em = dbService.getEntityManager();
 
+    try {
+      int transactionNumber = 0;
       int currentCacheNumber = 0;
       int numberOfCaches = caches.size();
       for (Cache cache : caches) {
@@ -47,7 +49,10 @@ public class CacheServiceImpl implements CacheService {
               "Save caches to Database " + currentCacheNumber + " / " + numberOfCaches,
               (double) currentCacheNumber / (double) numberOfCaches));
 
-        em.getTransaction().begin();
+        // begin transaction if the transaction counter is set to zero
+        if (transactionNumber == 0) { em.getTransaction().begin(); };
+        transactionNumber++;
+
         em.merge(cache.getOwner());
         em.merge(cache.getMainWayPoint());
 
@@ -65,10 +70,24 @@ public class CacheServiceImpl implements CacheService {
         }
 
         em.merge(cache);
-        em.getTransaction().commit();
+
+        // comit every X caches
+        if (transactionNumber == TRANSACTION_SIZE) {
+          em.getTransaction().commit();
+          transactionNumber = 0;
+        }
       }
 
-      fireEvent(new ProgressEvent("Database",
+      // if there wasn?t a commit right before, commit the rest
+      if (transactionNumber != 0) {
+        em.getTransaction().commit();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      em.getTransaction().rollback();
+    }
+
+    fireEvent(new ProgressEvent("Database",
           ProgressEvent.State.FINISHED,
           "Caches are saved to Database"));
   }

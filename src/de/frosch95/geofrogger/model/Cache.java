@@ -38,6 +38,7 @@ public class Cache {
   private Long id;
   private boolean available;
   private boolean archived;
+  private boolean found;
   private String name;
   private String placedBy;
   private User owner;
@@ -229,6 +230,14 @@ public class Cache {
 
   public void setTravelBugs(List<TravelBug> travelBugs) {
     this.travelBugs = travelBugs;
+  }
+
+  public boolean isFound() {
+    return found;
+  }
+
+  public void setFound(final boolean found) {
+    this.found = found;
   }
 
   @Override

@@ -33,6 +33,8 @@ import java.util.List;
 public class CacheUtils {
 
   public static final String FOUND_IT = "Found it";
+  public static final String ATTENDED = "Attended";
+  public static final String WEBCAM_PHOTO = "Webcam Photo Taken";
 
   public static boolean hasUserFoundCache(Cache cache, Long currentUser) {
     boolean foundIt = false;
@@ -55,7 +57,7 @@ public class CacheUtils {
   }
 
   private static boolean isLogTypeFoundIt(Log log) {
-    return log.getType().equals(FOUND_IT);
+    return log.getType().equals(FOUND_IT) || log.getType().equals(ATTENDED) || log.getType().equals(WEBCAM_PHOTO);
   }
 
 }

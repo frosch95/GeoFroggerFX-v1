@@ -165,19 +165,24 @@ public class GroundspeakGPXReader implements GPXReader {
 
   private void parseContent() {
     modelList = new ArrayList<>();
-    final Element root = content.getRootElement();
-    final List<Element> waypoints = root.getChildren(WPT, defaultNamespace);
+    try {
+      final Element root = content.getRootElement();
+      final List<Element> waypoints = root.getChildren(WPT, defaultNamespace);
 
-    int totalNumberOfCaches = waypoints.size();
-    int currentNumber = 0;
-    for (final Element waypointElement : waypoints) {
-      currentNumber++;
-      fireEvent(new ProgressEvent("GPX Reader",
-          ProgressEvent.State.RUNNING,
-          "Parse " + currentNumber + " of " + totalNumberOfCaches + " caches.",
-          (double) currentNumber / (double) totalNumberOfCaches));
-      final Cache cache = parseWaypointElement(waypointElement);
-      modelList.add(cache);
+      int totalNumberOfCaches = waypoints.size();
+      int currentNumber = 0;
+      for (final Element waypointElement : waypoints) {
+        currentNumber++;
+        fireEvent(new ProgressEvent("GPX Reader",
+            ProgressEvent.State.RUNNING,
+            "Parse " + currentNumber + " of " + totalNumberOfCaches + " caches.",
+            (double) currentNumber / (double) totalNumberOfCaches));
+        final Cache cache = parseWaypointElement(waypointElement);
+        cache.setFound(CacheUtils.hasUserFoundCache(cache, 3906456l));
+        modelList.add(cache);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
