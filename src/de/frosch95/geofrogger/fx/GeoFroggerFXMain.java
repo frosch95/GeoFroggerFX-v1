@@ -78,7 +78,6 @@ public class GeoFroggerFXMain extends Application {
 
   @Override
   public void stop() throws Exception {
-    System.out.println("stop");
     ServiceManager.getInstance().getDatabaseService().getEntityManager().close();
     super.stop();
   }

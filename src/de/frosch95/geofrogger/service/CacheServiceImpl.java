@@ -81,7 +81,6 @@ public class CacheServiceImpl implements CacheService {
     try {
       EntityManager em = dbService.getEntityManager();
       String query = "select c from Cache c order by c."+sortField.getFieldName()+" "+direction.toString();
-      System.out.println("query: "+query);
       List<Cache> result = em.createQuery(query).getResultList();
       if (result != null) {
         caches = result;
