@@ -26,7 +26,6 @@
 package de.frosch95.geofrogger.fx.components;
 
 import de.frosch95.geofrogger.model.Cache;
-import de.frosch95.geofrogger.model.CacheUtils;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -54,8 +53,8 @@ public class CacheListCell extends ListCell<Cache> {
   private final ImageView icon = new ImageView();
   private final Label name = new Label();
   private final Label dt = new Label();
+  private final Label owner = new Label();
   private final ImageView foundIcon = new ImageView();
-  private final ImageView favoriteIcon = new ImageView();
 
   public CacheListCell() {
     configureGrid();
@@ -83,8 +82,10 @@ public class CacheListCell extends ListCell<Cache> {
     ColumnConstraints column1 = new ColumnConstraints(32);
     ColumnConstraints column2 = new ColumnConstraints(100, 100, Double.MAX_VALUE);
     column2.setHgrow(Priority.ALWAYS);
-    ColumnConstraints column3 = new ColumnConstraints(32);
-    grid.getColumnConstraints().addAll(column1, column2, column3);
+    ColumnConstraints column3 = new ColumnConstraints(100, 100, 200);
+    column3.setHgrow(Priority.SOMETIMES);
+    ColumnConstraints column4 = new ColumnConstraints(32);
+    grid.getColumnConstraints().addAll(column1, column2, column3, column4);
   }
 
   private void configureIcon() {
@@ -101,10 +102,10 @@ public class CacheListCell extends ListCell<Cache> {
 
   private void addControlsToGrid() {
     grid.add(icon, 0, 0, 1, 2);
-    grid.add(name, 1, 0);
-    grid.add(dt, 1, 1);
-    grid.add(foundIcon, 2, 0);
-    grid.add(favoriteIcon, 2, 1);
+    grid.add(name, 1, 0, 2, 1);
+    grid.add(dt, 2, 1);
+    grid.add(owner, 1, 1);
+    grid.add(foundIcon, 3, 0);
   }
 
   private void clearContent() {
@@ -117,6 +118,9 @@ public class CacheListCell extends ListCell<Cache> {
     icon.setImage(GeocachingIcons.getIcon(cache));
     name.setText(cache.getName());
     dt.setText("D: " + cache.getDifficulty() + " / T:" + cache.getTerrain());
+
+    String ownerText = cache.getPlacedBy().equals(cache.getOwner().getName()) ? cache.getPlacedBy() : cache.getPlacedBy() + " (" + cache.getOwner().getName() + ")";
+    owner.setText(ownerText);
 
     if (cache.isFound()) {
       foundIcon.setImage(IconManager.getIcon("/icons/iconmonstr-check-mark-11-icon.png", IconManager.IconSize.SMALL));
