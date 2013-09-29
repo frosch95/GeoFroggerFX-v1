@@ -30,6 +30,8 @@ import de.frosch95.geofrogger.application.ServiceManager;
 import de.frosch95.geofrogger.application.SessionContext;
 import de.frosch95.geofrogger.gpx.GPXReader;
 import de.frosch95.geofrogger.model.Cache;
+import de.frosch95.geofrogger.plugins.Plugin;
+import de.frosch95.geofrogger.plugins.PluginService;
 import de.frosch95.geofrogger.service.CacheService;
 import de.frosch95.geofrogger.service.CacheSortField;
 import de.frosch95.geofrogger.service.SortDirection;
@@ -39,12 +41,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import org.controlsfx.dialog.Dialog;
 
@@ -106,12 +106,16 @@ public class GeofroggerController implements Initializable {
 
   private final GPXReader gpxReader = ServiceManager.getInstance().getGPXReader();
   private final CacheService cacheService = ServiceManager.getInstance().getCacheService();
+  private final PluginService pluginService = ServiceManager.getInstance().getPluginService();
 
   @FXML
   private Label leftStatus;
 
   @FXML
   private ProgressBar progress;
+
+  @FXML
+  private Menu pluginsMenu;
 
   /**
    * Initializes the controller class.
@@ -121,14 +125,16 @@ public class GeofroggerController implements Initializable {
    */
   @Override
   public void initialize(URL url, ResourceBundle rb) {
-    gpxReader.addListener((ProgressEvent event) -> {
-      updateStatus(event.getMessage(), event.getProgress());
-    });
 
-    cacheService.addListener((ProgressEvent event) -> {
-      updateStatus(event.getMessage(), event.getProgress());
-    });
+    List<Plugin> plugins = pluginService.getAllPlugins();
+    for (Plugin plugin: plugins) {
+      MenuItem menuItem = new MenuItem(plugin.getName()+" ("+plugin.getVersion()+")");
+      menuItem.setOnAction(actionEvent -> pluginService.executePlugin(plugin));
+      pluginsMenu.getItems().add(menuItem);
+    }
 
+    gpxReader.addListener((ProgressEvent event) -> updateStatus(event.getMessage(), event.getProgress()));
+    cacheService.addListener((ProgressEvent event) -> updateStatus(event.getMessage(), event.getProgress()));
     loadFromDBService.start();
   }
 

@@ -27,6 +27,8 @@ package de.frosch95.geofrogger.application;
 
 import de.frosch95.geofrogger.gpx.GPXReader;
 import de.frosch95.geofrogger.gpx.GroundspeakGPXReader;
+import de.frosch95.geofrogger.plugins.PluginService;
+import de.frosch95.geofrogger.plugins.PluginServiceImpl;
 import de.frosch95.geofrogger.service.CacheService;
 import de.frosch95.geofrogger.service.CacheServiceImpl;
 import de.frosch95.geofrogger.sql.DatabaseService;
@@ -42,6 +44,7 @@ public class ServiceManager {
   private GPXReader gpxReader;
   private DatabaseService databaseService;
   private CacheService cacheService;
+  private PluginService pluginService;
 
   private ServiceManager() {
     // private for singleton pattern
@@ -70,6 +73,13 @@ public class ServiceManager {
       cacheService = new CacheServiceImpl();
     }
     return cacheService;
+  }
+
+  public synchronized PluginService getPluginService() {
+    if (pluginService == null) {
+      pluginService = new PluginServiceImpl();
+    }
+    return pluginService;
   }
 
 }
