@@ -15,7 +15,9 @@ public enum Type {
   EVENT("Event Cache"),
   WHERIGO("Wherigo Cache"),
   WEBCAM_CACHE("Webcam Cache"),
-  VIRTUAL_CACHE("Virtual Cache");
+  VIRTUAL_CACHE("Virtual Cache"),
+  CITO_EVENT("Cache In Trash Out Event"),
+  MEGA_EVENT("Mega-Event Cache");
 
   private String groundspeakString;
 

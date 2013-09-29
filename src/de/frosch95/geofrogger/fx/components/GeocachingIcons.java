@@ -63,6 +63,8 @@ public class GeocachingIcons {
         break;
 
       case EVENT:
+      case CITO_EVENT:
+      case MEGA_EVENT:
         iconName = "/icons/iconmonstr-calendar-4-icon.png";
         break;
 
