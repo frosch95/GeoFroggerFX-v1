@@ -1,7 +1,9 @@
 GeoFroggerFX
 ============
-
 GeoFroggerFX is a JavaFX desktop application to manage geocaching gpx files.
+Webpage of the project: [http://www.geofroggerfx.de](http://www.geofroggerfx.de)
+
+I try to provide an up-to-date version as a webstart version.
 
 Requirements
 ------------
