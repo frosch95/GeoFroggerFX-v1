@@ -115,7 +115,7 @@ public class CacheListController implements Initializable, SessionContextListene
 
   private void initListMenuButton(final ResourceBundle rb) {
     addClasses(menuIcon, CACHE_LIST_ACTION_ICONS);
-    menuIcon.setGraphic(new ImageView(IconManager.getIcon("/icons/iconmonstr-menu-icon.png", IconManager.IconSize.SMALL)));
+    menuIcon.setGraphic(new ImageView(IconManager.getIcon("iconmonstr-menu-icon.png", IconManager.IconSize.SMALL)));
     menuIcon.getItems().addAll(createSortMenu(rb));
   }
 

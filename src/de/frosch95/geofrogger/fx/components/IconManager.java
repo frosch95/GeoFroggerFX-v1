@@ -54,15 +54,13 @@ public class IconManager {
     }
   }
 
-  ;
-
   public static Image getIcon(String iconName, IconSize size) {
     final Image image;
     String key = iconName + "_" + size;
     if (container.containsKey(key)) {
       image = container.get(key);
     } else {
-      image = new Image(iconName, size.getValue(), size.getValue(), true, true);
+      image = new Image("/icons/"+(int)size.getValue()+"/"+iconName, size.getValue(), size.getValue(), true, true);
       container.put(key, image);
     }
     return image;

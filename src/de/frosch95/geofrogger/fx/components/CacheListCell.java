@@ -123,7 +123,7 @@ public class CacheListCell extends ListCell<Cache> {
     owner.setText(ownerText);
 
     if (cache.isFound()) {
-      foundIcon.setImage(IconManager.getIcon("/icons/iconmonstr-check-mark-11-icon.png", IconManager.IconSize.SMALL));
+      foundIcon.setImage(IconManager.getIcon("iconmonstr-check-mark-11-icon.png", IconManager.IconSize.SMALL));
     } else {
       foundIcon.setImage(null);
     }

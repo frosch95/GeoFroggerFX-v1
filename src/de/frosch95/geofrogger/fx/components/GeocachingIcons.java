@@ -39,45 +39,45 @@ public class GeocachingIcons {
   }
 
   public static Image getIcon(Cache cache, IconManager.IconSize size) {
-    String iconName = "/icons/iconmonstr-map-5-icon.png";
+    String iconName = "iconmonstr-map-5-icon.png";
 
     switch (cache.getType()) {
       case MULTI_CACHE:
-        iconName = "/icons/iconmonstr-map-6-icon.png";
+        iconName = "iconmonstr-map-6-icon.png";
         break;
 
       case TRADITIONAL_CACHE:
-        iconName = "/icons/iconmonstr-map-5-icon.png";
+        iconName = "iconmonstr-map-5-icon.png";
         break;
 
       case UNKNOWN_CACHE:
-        iconName = "/icons/iconmonstr-help-3-icon.png";
+        iconName = "iconmonstr-help-3-icon.png";
         break;
 
       case EARTH_CACHE:
-        iconName = "/icons/iconmonstr-globe-4-icon.png";
+        iconName = "iconmonstr-globe-4-icon.png";
         break;
 
       case LETTERBOX:
-        iconName = "/icons/iconmonstr-email-4-icon.png";
+        iconName = "iconmonstr-email-4-icon.png";
         break;
 
       case EVENT:
       case CITO_EVENT:
       case MEGA_EVENT:
-        iconName = "/icons/iconmonstr-calendar-4-icon.png";
+        iconName = "iconmonstr-calendar-4-icon.png";
         break;
 
       case WHERIGO:
-        iconName = "/icons/iconmonstr-navigation-6-icon.png";
+        iconName = "iconmonstr-navigation-6-icon.png";
         break;
 
       case WEBCAM_CACHE:
-        iconName = "/icons/iconmonstr-webcam-3-icon.png";
+        iconName = "iconmonstr-webcam-3-icon.png";
         break;
 
       case VIRTUAL_CACHE:
-        iconName = "/icons/iconmonstr-network-2-icon.png";
+        iconName = "iconmonstr-network-2-icon.png";
         break;
 
       default:
@@ -93,7 +93,7 @@ public class GeocachingIcons {
   }
 
   public static Image getMapIcon(Cache cache, IconManager.IconSize size) {
-    String iconName = "/icons/iconmonstr-location-icon.png";
+    String iconName = "iconmonstr-location-icon.png";
     return IconManager.getIcon(iconName, size);
   }
 
