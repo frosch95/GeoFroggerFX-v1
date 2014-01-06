@@ -9,10 +9,9 @@ import java.util.List;
  */
 public interface PluginService {
 
-  List<Plugin> getAllPlugins();
+    List<Plugin> getAllPlugins();
 
-  void executePlugin(Plugin plugin);
-
+    void executePlugin(Plugin plugin);
 
 
 }

@@ -9,22 +9,23 @@ import java.util.Map;
  */
 public interface Plugin {
 
-  /**
-   * @return name
-   */
-  String getName();
+    /**
+     * @return name
+     */
+    String getName();
 
-  /**
-   * @return version
-   */
-  String getVersion();
+    /**
+     * @return version
+     */
+    String getVersion();
 
-  /**
-   * Run the main method of the plugin. All the logic is done in this method.
-   * Every run method will get a context map, with all the services inside,
-   * to use them.
-   * @param context services and data
-   */
-  void run(Map context);
+    /**
+     * Run the main method of the plugin. All the logic is done in this method.
+     * Every run method will get a context map, with all the services inside,
+     * to use them.
+     *
+     * @param context services and data
+     */
+    void run(Map context);
 
 }
