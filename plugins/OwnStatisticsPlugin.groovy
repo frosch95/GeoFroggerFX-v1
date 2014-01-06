@@ -88,7 +88,7 @@ class OwnStatisticsPlugin implements Plugin {
       if (value) terrainData.add(new Data(it+ ' (' + value + ')', value))
     }
     def terrainChart = new PieChart(terrainData);
-    terrainChart.setTitle("Spreeading of terrain found (${result.foundCount}).");
+    terrainChart.setTitle("Spreading of terrain found (${result.foundCount}).");
 
     // add charts to layout container
     contenPane.children.addAll(typeChart, difficultyChart, terrainChart)
