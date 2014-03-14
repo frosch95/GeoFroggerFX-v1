@@ -4,11 +4,8 @@ import javafx.concurrent.Task
 import javafx.concurrent.WorkerStateEvent
 import javafx.event.EventHandler
 import javafx.scene.control.Label
-import javafx.scene.control.ScrollPane
 import javafx.scene.control.TextArea
 import javafx.scene.layout.Pane
-import javafx.scene.layout.Priority
-import javafx.scene.layout.VBox
 import org.controlsfx.dialog.Dialog
 
 class Project81Plugin implements Plugin {
@@ -46,8 +43,9 @@ class Project81Plugin implements Plugin {
     private void calculateStats(sessionContext) {
         // get the cache list out of the context
         def cacheList = sessionContext.getData("cache-list")
-        service.cacheList = cacheList;
-        service.restart();
+        service.cacheList = cacheList
+        service.sessionContext = sessionContext
+        service.restart()
     }
 
     /**
@@ -74,8 +72,7 @@ class Project81Plugin implements Plugin {
 class CalculateService extends Service {
 
     def cacheList
-
-
+    def sessionContext
 
     @Override
     protected Task createTask() {
@@ -96,9 +93,11 @@ class CalculateService extends Service {
                         }
                     }
 
-                    cacheList.findAll {
+                    def filteredList = cacheList.findAll {
                         cache -> !(cache.found || dtFound[cache.difficulty + "_" + cache.terrain])
                     }
+
+                    sessionContext.setData("cache-list", filteredList)
 
                 } catch (Exception e) {
                     e.printStackTrace()
