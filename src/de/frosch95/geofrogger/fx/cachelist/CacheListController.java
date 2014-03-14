@@ -30,10 +30,10 @@ import de.frosch95.geofrogger.application.SessionContext;
 import de.frosch95.geofrogger.application.SessionContextListener;
 import de.frosch95.geofrogger.fx.components.CacheListCell;
 import de.frosch95.geofrogger.fx.components.IconManager;
+import de.frosch95.geofrogger.fx.components.SortingMenuItem;
 import de.frosch95.geofrogger.model.Cache;
 import de.frosch95.geofrogger.service.CacheService;
 import de.frosch95.geofrogger.service.CacheSortField;
-import de.frosch95.geofrogger.service.SortDirection;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -49,7 +49,6 @@ import java.util.ResourceBundle;
 
 import static de.frosch95.geofrogger.fx.utils.JavaFXUtils.addClasses;
 import static de.frosch95.geofrogger.service.CacheSortField.*;
-import static de.frosch95.geofrogger.service.SortDirection.*;
 
 /**
  * FXML Controller class
@@ -59,10 +58,10 @@ import static de.frosch95.geofrogger.service.SortDirection.*;
 public class CacheListController implements Initializable, SessionContextListener {
 
   private static final String CACHE_LIST_ACTION_ICONS = "cache-list-action-icons";
+
   private final SessionContext sessionContext = SessionContext.getInstance();
   private final CacheService cacheService = ServiceManager.getInstance().getCacheService();
-  private CacheSortField currentSortField = NAME;
-  private SortDirection currentSortDirection = ASC;
+  private SortingMenuItem currentSortingButton = null;
 
   @FXML
   private ListView cacheListView;
@@ -121,8 +120,10 @@ public class CacheListController implements Initializable, SessionContextListene
 
   private Menu createSortMenu(final ResourceBundle rb) {
     Menu sortMenu = new Menu(rb.getString("menu.title.sort"));
+    currentSortingButton = createSortButton(rb, NAME);
+    currentSortingButton.setSelected(true);
     sortMenu.getItems().addAll(
-        createSortButton(rb, NAME),
+        currentSortingButton,
         createSortButton(rb, TYPE),
         createSortButton(rb, DIFFICULTY),
         createSortButton(rb, TERRAIN),
@@ -131,15 +132,23 @@ public class CacheListController implements Initializable, SessionContextListene
     return sortMenu;
   }
 
-  private MenuItem createSortButton(final ResourceBundle rb, final CacheSortField field) {
-    MenuItem button = new MenuItem(rb.getString("sort.cache."+field.getFieldName()));
+  private SortingMenuItem createSortButton(final ResourceBundle rb, final CacheSortField field) {
+    SortingMenuItem button = new SortingMenuItem(rb.getString("sort.cache."+field.getFieldName()), field);
     button.setOnAction(actionEvent -> {
-      currentSortDirection = (field.equals(currentSortField) && currentSortDirection.equals(ASC)) ? DESC : ASC;
-      currentSortField = field;
-      sessionContext.setData("cache-list", cacheService.getAllCaches(currentSortField, currentSortDirection));
+
+      // if there was another button selected, change the selection
+      if (!currentSortingButton.equals(button)) {
+        currentSortingButton.setSelected(false);
+        currentSortingButton = button;
+      }
+
+      currentSortingButton.setSelected(true);
+      sessionContext.setData("cache-list", cacheService.getAllCaches(currentSortingButton.getField(), currentSortingButton.getSortDirection()));
     });
     return button;
   }
+
+
 
 
 }
