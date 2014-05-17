@@ -10,7 +10,7 @@ apply plugin: 'idea'
 ///////////////////////////////////////////////////////////////////////////////////
 version = 0.3
 sourceCompatibility = 1.8
-mainClassName = 'de.frosch95.geofrogger.fx.GeoFroggerFXMain'
+mainClassName = 'de.geofroggerfx.fx.GeoFroggerFXMain'
 
 ///////////////////////////////////////////////////////////////////////////////////
 // add main class to MANIFEST.FM                                                 //
@@ -52,7 +52,7 @@ dependencies {
   //compile group: 'org.jfxtras', name: 'jfxtras-labs', version: '8.0-r1-SNAPSHOT' this is not an actual version and the map part is missing
   compile files('lib/JFXtras/jfxtras-labs-8.0-r1-SNAPSHOT.jar', 'lib/ScenicView/ScenicView.jar')
   compile group: 'org.jdom', name: 'jdom2', version: '2.0.5'
-  compile group: 'org.controlsfx', name: 'controlsfx', version: '8.0.3'
+  compile group: 'org.controlsfx', name: 'controlsfx', version: '8.0.5'
   compile group: 'com.h2database', name: 'h2', version: '1.3.173'
   compile group: 'org.eclipse.persistence', name: 'eclipselink', version: '2.5.0'
   compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.2.1'

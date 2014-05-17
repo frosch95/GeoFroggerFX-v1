@@ -1,4 +1,4 @@
-import de.frosch95.geofrogger.plugins.Plugin
+import de.geofroggerfx.plugins.Plugin
 import javafx.collections.FXCollections
 import javafx.scene.chart.PieChart
 import javafx.scene.control.Label

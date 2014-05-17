@@ -1,4 +1,4 @@
-import de.frosch95.geofrogger.plugins.Plugin
+import de.geofroggerfx.plugins.Plugin
 import javafx.concurrent.Service
 import javafx.concurrent.Task
 import javafx.concurrent.WorkerStateEvent

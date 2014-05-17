@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.geofroggerfx.fx.components.MapPaneWrapper?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
+<AnchorPane fx:id="cacheDetailPane" styleClass="details-pane" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="de.geofroggerfx.fx.cachedetails.CacheDetailsController">
+  <children>
+    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="details-header"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <Label fx:id="cacheNameHeader" maxWidth="1.7976931348623157E308" text="" textFill="WHITE" underline="false"
+               HBox.hgrow="ALWAYS">
+          <font>
+            <Font size="16.0"/>
+          </font>
+        </Label>
+        <Label fx:id="detailsIconHeader" alignment="CENTER_RIGHT" maxWidth="-1.0" text="" textAlignment="LEFT"
+               wrapText="false" HBox.hgrow="ALWAYS"/>
+      </children>
+      <padding>
+        <Insets left="16.0" right="16.0"/>
+      </padding>
+    </HBox>
+    <TabPane side="BOTTOM" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+             AnchorPane.topAnchor="40.0">
+      <Tab closable="false" text="%tab.text.general">
+        <content>
+          <AnchorPane>
+            <GridPane alignment="TOP_LEFT" gridLinesVisible="false" hgap="16.0" snapToPixel="true" styleClass="form"
+                      vgap="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                      AnchorPane.topAnchor="0.0">
+              <children>
+                <Label text="%label.text.name" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="cacheName" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="0"/>
+
+                <Label text="%label.text.difficulty" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <Slider fx:id="difficultySlider" blockIncrement="0.5" majorTickUnit="1.0" max="5.0" min="1.0"
+                        minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0"
+                        GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="%label.text.terrain" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <Slider fx:id="terrainSlider" blockIncrement="0.5" majorTickUnit="1.0" max="5.0" min="1.0"
+                        minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true"
+                        GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+
+                <Label text="%label.text.placedBy" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                  <labelFor>
+                    <TextField fx:id="placedByTextfield" prefWidth="200.0" GridPane.columnIndex="1"
+                               GridPane.rowIndex="2"/>
+                  </labelFor>
+                </Label>
+                <fx:reference source="placedByTextfield"/>
+
+                <Label text="%label.text.owner" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <labelFor>
+                    <TextField fx:id="ownerTextfield" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                  </labelFor>
+                </Label>
+                <fx:reference source="ownerTextfield"/>
+
+                <Label text="%label.text.date" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <DatePicker fx:id="date" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                <Label text="%label.text.type" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                  <labelFor>
+                    <TextField fx:id="typeTextfield" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                  </labelFor>
+                </Label>
+                <fx:reference source="typeTextfield"/>
+
+                <Label text="%label.text.container" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                  <labelFor>
+                    <TextField fx:id="containerTextfield" prefWidth="200.0" GridPane.columnIndex="3"
+                               GridPane.rowIndex="4"/>
+                  </labelFor>
+                </Label>
+                <fx:reference source="containerTextfield"/>
+
+
+              </children>
+
+              <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="NEVER" prefWidth="-1.0"/>
+                <ColumnConstraints fillWidth="true" hgrow="ALWAYS"/>
+                <ColumnConstraints halignment="RIGHT" hgrow="NEVER" prefWidth="-1.0"/>
+                <ColumnConstraints fillWidth="true" hgrow="ALWAYS"/>
+              </columnConstraints>
+              <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+              </padding>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="NEVER"/>
+                <RowConstraints minHeight="-Infinity" prefHeight="-1.0" valignment="TOP" vgrow="NEVER"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="NEVER"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="NEVER"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="NEVER"/>
+              </rowConstraints>
+            </GridPane>
+            <MapPaneWrapper fx:id="mapPaneWrapper" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="18.0"
+                            AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="260.0"/>
+          </AnchorPane>
+        </content>
+      </Tab>
+      <Tab closable="false" text="%tab.text.descriptions">
+        <content>
+          <GridPane alignment="TOP_LEFT" gridLinesVisible="false" hgap="16.0" snapToPixel="true" styleClass="form"
+                    vgap="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+            <children>
+              <Label text="%label.text.shortdescription" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+              <CheckBox fx:id="shortDescriptionHtml" text="%label.text.htmldescription" GridPane.columnIndex="1"
+                        GridPane.rowIndex="0"/>
+              <BorderPane fx:id="shortDescriptionPane" GridPane.columnSpan="2" GridPane.columnIndex="0"
+                          GridPane.rowIndex="1"/>
+              <Label text="%label.text.longdescription" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+              <CheckBox fx:id="longDescriptionHtml" text="%label.text.htmldescription" GridPane.columnIndex="1"
+                        GridPane.rowIndex="2"/>
+              <BorderPane fx:id="longDescriptionPane" GridPane.columnSpan="2" GridPane.columnIndex="0"
+                          GridPane.rowIndex="3"/>
+            </children>
+
+            <columnConstraints>
+              <ColumnConstraints fillWidth="true" hgrow="NEVER"/>
+              <ColumnConstraints fillWidth="true" hgrow="ALWAYS"/>
+            </columnConstraints>
+            <padding>
+              <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            <rowConstraints>
+              <RowConstraints minHeight="16" valignment="TOP" vgrow="NEVER"/>
+              <RowConstraints minHeight="150" valignment="TOP" vgrow="ALWAYS"/>
+              <RowConstraints minHeight="16" valignment="TOP" vgrow="NEVER"/>
+              <RowConstraints minHeight="350" valignment="TOP" vgrow="ALWAYS"/>
+            </rowConstraints>
+          </GridPane>
+        </content>
+      </Tab>
+    </TabPane>
+  </children>
+  <stylesheets>
+    <URL value="@../geofrogger.css"/>
+  </stylesheets>
+</AnchorPane>

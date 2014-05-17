@@ -4,13 +4,13 @@
   <persistence-unit name="geocaches" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>de.frosch95.geofrogger.model.Attribute</class>
-    <class>de.frosch95.geofrogger.model.Cache</class>
-    <class>de.frosch95.geofrogger.model.Log</class>
-    <class>de.frosch95.geofrogger.model.TravelBug</class>
-    <class>de.frosch95.geofrogger.model.Type</class>
-    <class>de.frosch95.geofrogger.model.User</class>
-    <class>de.frosch95.geofrogger.model.Waypoint</class>
+    <class>de.geofroggerfx.model.Attribute</class>
+    <class>de.geofroggerfx.model.Cache</class>
+    <class>de.geofroggerfx.model.Log</class>
+    <class>de.geofroggerfx.model.TravelBug</class>
+    <class>de.geofroggerfx.model.Type</class>
+    <class>de.geofroggerfx.model.User</class>
+    <class>de.geofroggerfx.model.Waypoint</class>
 
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
