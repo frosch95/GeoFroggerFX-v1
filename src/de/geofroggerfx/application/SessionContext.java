@@ -25,6 +25,7 @@
  */
 package de.geofroggerfx.application;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,18 +35,11 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author Andreas
  */
+@Singleton
 public class SessionContext {
 
-  private static final SessionContext INSTANCE = new SessionContext();
   private final Map<String, Object> map = new ConcurrentHashMap<>();
   private final Map<String, List<SessionContextListener>> sessionListeners = new HashMap<>();
-
-  private SessionContext() {
-  }
-
-  public static SessionContext getInstance() {
-    return INSTANCE;
-  }
 
   public void setData(String key, Object value) {
     if (value == null && map.containsKey(key)) {

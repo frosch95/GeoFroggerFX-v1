@@ -7,13 +7,13 @@ package de.geofroggerfx.service;
 
 import de.geofroggerfx.application.ProgressEvent;
 import de.geofroggerfx.application.ProgressListener;
-import de.geofroggerfx.application.ServiceManager;
 import de.geofroggerfx.model.Attribute;
 import de.geofroggerfx.model.Cache;
 import de.geofroggerfx.model.Log;
 import de.geofroggerfx.model.TravelBug;
 import de.geofroggerfx.sql.DatabaseService;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,9 @@ import java.util.List;
 public class CacheServiceImpl implements CacheService {
 
   private static final int TRANSACTION_SIZE = 100;
-  private final DatabaseService dbService = ServiceManager.getInstance().getDatabaseService();
+
+  @Inject
+  private DatabaseService dbService;
   private final List<ProgressListener> listeners = new ArrayList<>();
 
   @Override
@@ -50,7 +52,7 @@ public class CacheServiceImpl implements CacheService {
               (double) currentCacheNumber / (double) numberOfCaches));
 
         // begin transaction if the transaction counter is set to zero
-        if (transactionNumber == 0) { em.getTransaction().begin(); };
+        if (transactionNumber == 0) { em.getTransaction().begin(); }
         transactionNumber++;
 
         em.merge(cache.getOwner());

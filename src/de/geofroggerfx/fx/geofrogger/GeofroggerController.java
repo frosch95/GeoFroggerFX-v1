@@ -26,7 +26,6 @@
 package de.geofroggerfx.fx.geofrogger;
 
 import de.geofroggerfx.application.ProgressEvent;
-import de.geofroggerfx.application.ServiceManager;
 import de.geofroggerfx.application.SessionContext;
 import de.geofroggerfx.gpx.GPXReader;
 import de.geofroggerfx.model.Cache;
@@ -45,6 +44,7 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import org.controlsfx.dialog.Dialog;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -53,8 +53,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static de.geofroggerfx.service.CacheSortField.*;
-import static de.geofroggerfx.service.SortDirection.*;
+import static de.geofroggerfx.service.CacheSortField.NAME;
+import static de.geofroggerfx.service.SortDirection.ASC;
 
 /**
  * FXML Controller class
@@ -97,13 +97,19 @@ public class GeofroggerController implements Initializable {
       + "\t- H2 1.3.173\n"
       + "\t- Icons by http://iconmonstr.com/\n";
 
-  private final SessionContext sessionContext = SessionContext.getInstance();
+  @Inject
+  private SessionContext sessionContext;
   private final LoadCachesFromFileService loadService = new LoadCachesFromFileService();
   private final LoadCachesFromDatabaseService loadFromDBService = new LoadCachesFromDatabaseService();
 
-  private final GPXReader gpxReader = ServiceManager.getInstance().getGPXReader();
-  private final CacheService cacheService = ServiceManager.getInstance().getCacheService();
-  private final PluginService pluginService = ServiceManager.getInstance().getPluginService();
+  @Inject
+  private GPXReader gpxReader;
+
+  @Inject
+  private CacheService cacheService;
+
+  @Inject
+  private PluginService pluginService;
 
   @FXML
   private Label leftStatus;

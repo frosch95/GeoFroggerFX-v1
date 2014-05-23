@@ -1,9 +1,10 @@
 package de.geofroggerfx.plugins;
 
-import de.geofroggerfx.application.ServiceManager;
 import de.geofroggerfx.application.SessionContext;
+import de.geofroggerfx.service.CacheService;
 import groovy.lang.GroovyClassLoader;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,44 +19,49 @@ import java.util.Map;
  */
 public class PluginServiceImpl implements PluginService {
 
-    private final GroovyClassLoader gcl = new GroovyClassLoader();
-    private final ServiceManager serviceManager = ServiceManager.getInstance();
+  private final GroovyClassLoader gcl = new GroovyClassLoader();
+
+  @Inject
+  private CacheService cacheService;
+
+  @Inject
+  private SessionContext sessionContext;
 
 
-    @Override
-    public List<Plugin> getAllPlugins() {
+  @Override
+  public List<Plugin> getAllPlugins() {
 
-        List<Plugin> plugins = new ArrayList<>();
+    List<Plugin> plugins = new ArrayList<>();
 
-        try {
-            File file = new File("./plugins");
-            if (!file.exists()) {
-                throw new IllegalArgumentException("plugins folder does not exist");
-            }
+    try {
+      File file = new File("./plugins");
+      if (!file.exists()) {
+        throw new IllegalArgumentException("plugins folder does not exist");
+      }
 
-            File[] pluginFiles = file.listFiles((dir, name) -> name.endsWith("Plugin.groovy"));
-            for (File pluginFile : pluginFiles) {
-                Class clazz = gcl.parseClass(pluginFile);
-                for (Class interf : clazz.getInterfaces()) {
-                    if (interf.equals(Plugin.class)) {
-                        plugins.add((Plugin) clazz.newInstance());
-                        break;
-                    }
-                }
-            }
-
-        } catch (IOException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+      File[] pluginFiles = file.listFiles((dir, name) -> name.endsWith("Plugin.groovy"));
+      for (File pluginFile : pluginFiles) {
+        Class clazz = gcl.parseClass(pluginFile);
+        for (Class interf : clazz.getInterfaces()) {
+          if (interf.equals(Plugin.class)) {
+            plugins.add((Plugin) clazz.newInstance());
+            break;
+          }
         }
+      }
 
-        return plugins;
+    } catch (IOException | InstantiationException | IllegalAccessException e) {
+      e.printStackTrace();
     }
 
-    @Override
-    public void executePlugin(final Plugin plugin) {
-        Map<String, Object> context = new HashMap<>();
-        context.put("sessionContext", SessionContext.getInstance());
-        context.put("cacheService", serviceManager.getCacheService());
-        plugin.run(context);
-    }
+    return plugins;
+  }
+
+  @Override
+  public void executePlugin(final Plugin plugin) {
+    Map<String, Object> context = new HashMap<>();
+    context.put("sessionContext", sessionContext);
+    context.put("cacheService", cacheService);
+    plugin.run(context);
+  }
 }

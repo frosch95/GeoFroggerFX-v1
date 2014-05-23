@@ -28,6 +28,7 @@ package de.geofroggerfx.service;
 import de.geofroggerfx.application.ProgressListener;
 import de.geofroggerfx.model.Cache;
 
+import javax.inject.Singleton;
 import java.util.List;
 
 /**

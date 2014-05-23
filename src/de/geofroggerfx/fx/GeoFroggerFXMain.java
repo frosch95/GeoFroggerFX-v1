@@ -25,38 +25,47 @@
  */
 package de.geofroggerfx.fx;
 
-import de.geofroggerfx.application.ServiceManager;
+import de.geofroggerfx.fx.utils.ApplicationParametersProvider;
+import de.geofroggerfx.fx.utils.StartupScene;
+import de.geofroggerfx.sql.DatabaseService;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.scenicview.ScenicView;
+import org.jboss.weld.environment.se.Weld;
+import org.jboss.weld.environment.se.WeldContainer;
 
-import java.util.ResourceBundle;
+import javax.enterprise.util.AnnotationLiteral;
 
 /**
  * @author Andreas
  */
 public class GeoFroggerFXMain extends Application {
 
+  private Weld weld;
+  private WeldContainer weldContainer;
+
+  @Override
+  public void init() throws Exception {
+    super.init();
+
+    // Init Weld CDI
+    weld = new Weld();
+  }
+
   @Override
   public void start(Stage stage) throws Exception {
     loadCustomFonts();
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("geofrogger/geofrogger.fxml"), ResourceBundle.getBundle("de.geofroggerfx.fx.geofrogger"));
-    Parent root = (Parent)fxmlLoader.load();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
 
-    scene.setOnKeyPressed(keyEvent -> {
-      if (isScenicViewShortcutPressed(keyEvent)) {
-        ScenicView.show(scene);
-      }
-    });
+    weldContainer = weld.initialize();
+
+    // Make the application parameters injectable with a standard CDI
+    // annotation
+    weldContainer.instance().select(ApplicationParametersProvider.class).get().setParameters(getParameters());
+
+    // Now that JavaFX thread is ready
+    // let's inform whoever cares using standard CDI notification mechanism:
+    // CDI events
+    weldContainer.event().select(Stage.class, new AnnotationLiteral<StartupScene>() {}).fire(stage);
   }
 
   private void loadCustomFonts() {
@@ -72,13 +81,10 @@ public class GeoFroggerFXMain extends Application {
     Font.loadFont(GeoFroggerFXMain.class.getResource("/fonts/FiraSansOT-RegularItalic.otf").toExternalForm(), 12);
   }
 
-  private boolean isScenicViewShortcutPressed(final KeyEvent keyEvent) {
-    return keyEvent.isAltDown() && keyEvent.isControlDown() && keyEvent.getCode().equals(KeyCode.V);
-  }
-
   @Override
   public void stop() throws Exception {
-    ServiceManager.getInstance().getDatabaseService().getEntityManager().close();
+    weldContainer.instance().select(DatabaseService.class).get().getEntityManager().close();
+    weld.shutdown();
     super.stop();
   }
 

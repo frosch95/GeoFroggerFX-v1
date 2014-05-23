@@ -25,7 +25,6 @@
  */
 package de.geofroggerfx.fx.cachelist;
 
-import de.geofroggerfx.application.ServiceManager;
 import de.geofroggerfx.application.SessionContext;
 import de.geofroggerfx.application.SessionContextListener;
 import de.geofroggerfx.fx.components.CacheListCell;
@@ -39,10 +38,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuButton;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -59,8 +62,12 @@ public class CacheListController implements Initializable, SessionContextListene
 
   private static final String CACHE_LIST_ACTION_ICONS = "cache-list-action-icons";
 
-  private final SessionContext sessionContext = SessionContext.getInstance();
-  private final CacheService cacheService = ServiceManager.getInstance().getCacheService();
+  @Inject
+  private SessionContext sessionContext;
+
+  @Inject
+  private CacheService cacheService;
+
   private SortingMenuItem currentSortingButton = null;
 
   @FXML

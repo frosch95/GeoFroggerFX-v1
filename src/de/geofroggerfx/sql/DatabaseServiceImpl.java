@@ -39,8 +39,6 @@ public class DatabaseServiceImpl implements DatabaseService {
   private EntityManager em;
 
   public DatabaseServiceImpl() {
-
-
     factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     em = factory.createEntityManager();
   }

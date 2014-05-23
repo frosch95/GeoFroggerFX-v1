@@ -29,10 +29,10 @@
     <SplitPane dividerPositions="0.3779342723004695" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0"
                VBox.vgrow="ALWAYS">
       <items>
-        <fx:include source="../cachelist/cache_list.fxml" fx:id="cacheListContent"/>
+        <fx:include source="/de/geofroggerfx/fx/cachelist/cache_list.fxml" fx:id="cacheListContent"/>
         <ScrollPane fitToHeight="true" fitToWidth="true" pannable="false" prefHeight="-1.0" prefWidth="-1.0">
           <content>
-            <fx:include source="../cachedetails/cache_details.fxml" fx:id="cacheDetailsContent"/>
+            <fx:include source="/de/geofroggerfx/fx/cachedetails/cache_details.fxml" fx:id="cacheDetailsContent"/>
           </content>
         </ScrollPane>
       </items>
@@ -56,6 +56,6 @@
     </HBox>
   </children>
   <stylesheets>
-    <URL value="@../geofrogger.css"/>
+    <URL value="@/de/geofroggerfx/fx/geofrogger.css"/>
   </stylesheets>
 </VBox>

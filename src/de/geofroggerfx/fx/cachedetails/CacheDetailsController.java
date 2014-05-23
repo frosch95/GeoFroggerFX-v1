@@ -45,6 +45,7 @@ import javafx.util.Duration;
 import jfxtras.labs.map.render.ImageMapMarker;
 import jfxtras.labs.map.render.MapMarkable;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -97,7 +98,8 @@ public class CacheDetailsController implements Initializable, SessionContextList
   private WebView shortDescriptionWebView;
   private WebView longDescriptionWebView;
 
-  private final SessionContext sessionContext = SessionContext.getInstance();
+  @Inject
+  private SessionContext sessionContext;
 
   /**
    * Initializes the controller class.

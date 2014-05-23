@@ -26,6 +26,6 @@
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0"/>
   </children>
   <stylesheets>
-    <URL value="@../geofrogger.css"/>
+    <URL value="@/de/geofroggerfx/fx/geofrogger.css"/>
   </stylesheets>
 </AnchorPane>
