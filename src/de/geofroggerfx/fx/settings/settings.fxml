@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="de.geofroggerfx.fx.cachelist.CacheListController">
+    <children>
+        <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="cache-header"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label alignment="CENTER_LEFT" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="%label.text.cache.list"
+                       textAlignment="LEFT" textFill="WHITE" wrapText="false">
+                </Label>
+                <Label fx:id="cacheNumber" alignment="CENTER_LEFT" minWidth="60.0" prefWidth="-1.0" maxWidth="Infinity"
+                       style="&#10;" text="(0)" textAlignment="LEFT" textFill="WHITE" wrapText="false" HBox.hgrow="ALWAYS">
+                </Label>
+                <MenuButton fx:id="menuIcon"/>
+            </children>
+            <padding>
+                <Insets left="16.0" right="16.0" fx:id="x2"/>
+            </padding>
+        </HBox>
+        <ListView fx:id="cacheListView" prefHeight="507.0" prefWidth="221.0" AnchorPane.bottomAnchor="0.0"
+                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0"/>
+    </children>
+    <stylesheets>
+        <URL value="@/de/geofroggerfx/fx/geofrogger.css"/>
+    </stylesheets>
+</AnchorPane>

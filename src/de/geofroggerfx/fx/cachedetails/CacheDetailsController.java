@@ -31,7 +31,11 @@ import de.geofroggerfx.fx.components.MapPaneWrapper;
 import de.geofroggerfx.fx.components.GeocachingIcons;
 import de.geofroggerfx.fx.components.IconManager;
 import de.geofroggerfx.model.Cache;
+import de.geofroggerfx.model.CacheList;
+import de.geofroggerfx.service.CacheService;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -49,6 +53,7 @@ import javax.inject.Inject;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -90,6 +95,9 @@ public class CacheDetailsController implements Initializable, SessionContextList
   private CheckBox shortDescriptionHtml;
   @FXML
   private CheckBox longDescriptionHtml;
+  @FXML
+  private MenuButton addToListMenuButton;
+
 
   private ImageView icon;
   private FadeTransition ft;
@@ -100,6 +108,9 @@ public class CacheDetailsController implements Initializable, SessionContextList
 
   @Inject
   private SessionContext sessionContext;
+
+  @Inject
+  private CacheService cacheService;
 
   /**
    * Initializes the controller class.
@@ -119,10 +130,10 @@ public class CacheDetailsController implements Initializable, SessionContextList
     longDescriptionWebView = new WebView();
     shortDescriptionField = new TextArea();
     longDescriptionField = new TextArea();
+
     editableForm(false);
     initFading();
   }
-
 
   @Override
   public void sessionContextChanged() {
@@ -136,8 +147,35 @@ public class CacheDetailsController implements Initializable, SessionContextList
     }
   }
 
+  @FXML
+  public void editCache(final ActionEvent actionEvent) {
+
+  }
+
+
   private void setSessionListener() {
     sessionContext.addListener("current-cache", this);
+    sessionContext.addListener("cache-lists", () -> Platform.runLater(this::refreshCacheListMenu));
+  }
+
+  @SuppressWarnings("unchecked")
+  private void refreshCacheListMenu() {
+    List<CacheList> cacheLists = (List<CacheList>) sessionContext.getData("cache-lists");
+    addToListMenuButton.getItems().clear();
+    cacheLists.stream().forEach(this::addToListMenuItem);
+  }
+
+  private void addToListMenuItem(CacheList cacheList) {
+    final MenuItem listItem = new MenuItem(cacheList.getName());
+    addToListMenuButton.getItems().add(listItem);
+    listItem.setOnAction(actionEvent -> addCacheAction(cacheList)
+    );
+  }
+
+  private void addCacheAction(CacheList cacheList) {
+    Cache currentCache = (Cache) sessionContext.getData("current-cache");
+    cacheList.addCache(currentCache);
+    cacheService.storeCacheList(cacheList);
   }
 
   private void initFading() {

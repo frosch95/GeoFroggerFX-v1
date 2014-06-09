@@ -26,11 +26,11 @@
 package de.geofroggerfx.fx.cachelist;
 
 import de.geofroggerfx.application.SessionContext;
-import de.geofroggerfx.application.SessionContextListener;
 import de.geofroggerfx.fx.components.CacheListCell;
 import de.geofroggerfx.fx.components.IconManager;
 import de.geofroggerfx.fx.components.SortingMenuItem;
 import de.geofroggerfx.model.Cache;
+import de.geofroggerfx.model.CacheList;
 import de.geofroggerfx.service.CacheService;
 import de.geofroggerfx.service.CacheSortField;
 import javafx.application.Platform;
@@ -38,10 +38,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 
@@ -58,7 +55,7 @@ import static de.geofroggerfx.service.CacheSortField.*;
  *
  * @author Andreas
  */
-public class CacheListController implements Initializable, SessionContextListener {
+public class CacheListController implements Initializable {
 
   private static final String CACHE_LIST_ACTION_ICONS = "cache-list-action-icons";
 
@@ -79,6 +76,9 @@ public class CacheListController implements Initializable, SessionContextListene
   @FXML
   private MenuButton menuIcon;
 
+  @FXML
+  private ComboBox cacheListComboBox;
+
   /**
    * Initializes the controller class.
    *
@@ -96,19 +96,11 @@ public class CacheListController implements Initializable, SessionContextListene
             sessionContext.setData("current-cache", newValue)
     );
 
+    initCacheListComboBox();
     initListMenuButton(rb);
   }
 
-  @Override
   @SuppressWarnings("unchecked")
-  public void sessionContextChanged() {
-    List<Cache> caches = (List<Cache>) sessionContext.getData("cache-list");
-    Platform.runLater(() -> {
-      cacheNumber.setText("(" + caches.size() + ")");
-      cacheListView.getItems().setAll(caches);
-    });
-  }
-
   private void setCellFactory() {
     cacheListView.setCellFactory(
         (Callback<ListView<Cache>, CacheListCell>)
@@ -116,7 +108,45 @@ public class CacheListController implements Initializable, SessionContextListene
   }
 
   private void setSessionListener() {
-    sessionContext.addListener("cache-list", this);
+    sessionContext.addListener("cache-list", () -> Platform.runLater(this::resetCacheList));
+    sessionContext.addListener("cache-lists", () -> Platform.runLater(this::refreshCacheListComboAndSelectFirst));
+  }
+
+  @SuppressWarnings("unchecked")
+  private void resetCacheList() {
+    List<Cache> caches = (List<Cache>) sessionContext.getData("cache-list");
+    cacheNumber.setText("(" + caches.size() + ")");
+    cacheListView.getItems().setAll(caches);
+  }
+
+  @SuppressWarnings("unchecked")
+  private void refreshCacheListComboAndSelectFirst() {
+    List<CacheList> cacheLists = (List<CacheList>) sessionContext.getData("cache-lists");
+    cacheListComboBox.getItems().clear();
+    cacheListComboBox.getItems().add("All caches");
+    cacheListComboBox.getItems().addAll(cacheLists);
+    cacheListComboBox.getSelectionModel().selectFirst();
+  }
+
+
+  private void initCacheListComboBox() {
+    cacheListComboBox.setOnAction(actionEvent -> {
+      final Object selectedItem = cacheListComboBox.getSelectionModel().getSelectedItem();
+      Platform.runLater(() -> cacheListSelectAction(selectedItem));
+    });
+  }
+
+  private void cacheListSelectAction(Object selectedItem) {
+    if (selectedItem != null) {
+      if (selectedItem.equals("All caches")) {
+        loadAllCaches();
+      } else{
+        CacheList cacheList = (CacheList)selectedItem;
+        sessionContext.setData("cache-list", cacheList.getCaches());
+      }
+    } else {
+      cacheListComboBox.getSelectionModel().selectFirst();
+    }
   }
 
   private void initListMenuButton(final ResourceBundle rb) {
@@ -150,12 +180,14 @@ public class CacheListController implements Initializable, SessionContextListene
       }
 
       currentSortingButton.setSelected(true);
-      sessionContext.setData("cache-list", cacheService.getAllCaches(currentSortingButton.getField(), currentSortingButton.getSortDirection()));
+      loadAllCaches();
     });
     return button;
   }
 
-
+  private void loadAllCaches() {
+    sessionContext.setData("cache-list", cacheService.getAllCaches(currentSortingButton.getField(), currentSortingButton.getSortDirection()));
+  }
 
 
 }

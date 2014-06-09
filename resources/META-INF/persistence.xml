@@ -11,6 +11,7 @@
     <class>de.geofroggerfx.model.Type</class>
     <class>de.geofroggerfx.model.User</class>
     <class>de.geofroggerfx.model.Waypoint</class>
+    <class>de.geofroggerfx.model.CacheList</class>
 
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>

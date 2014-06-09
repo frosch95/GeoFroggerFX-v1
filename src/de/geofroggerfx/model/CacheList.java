@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Andreas Billmann <abi@geofroggerfx.de>
+ * Copyright (c) 2014, Andreas Billmann <abi@geofroggerfx.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,49 +23,69 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package de.geofroggerfx.service;
+package de.geofroggerfx.model;
 
-import de.geofroggerfx.application.ProgressListener;
-import de.geofroggerfx.model.Cache;
-import de.geofroggerfx.model.CacheList;
-
-import javax.inject.Singleton;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 /**
- * @author Andreas
+ * @author Andreas Billmann
  */
-public interface CacheService {
+@Entity
+public class CacheList {
 
-  /**
-   * Store the whole list of caches
-   * @param caches list of caches
-   */
-  void storeCaches(List<Cache> caches);
+  @Id
+  private String name;
 
-  /**
-   * Receive all caches from the database
-   * @param sortField sort the list based on the field
-   * @param direction sort direction (ASC/DESC)
-   * @return sorted list of caches
-   */
-  List<Cache> getAllCaches(CacheSortField sortField, SortDirection direction);
+  private List<Cache> caches;
 
-  /**
-   * Add a ProgressListener to inform about loading/storing progress.
-   * @param listener progress listener
-   */
-  void addListener(ProgressListener listener);
+  public String getName() {
+    return name;
+  }
 
-  /**
-   * Receive all cache lists
-   * @return list of available cachelists
-   */
-  List<CacheList> getAllCacheLists();
+  public void setName(String name) {
+    this.name = name;
+  }
 
-  /**
-   * Stores a cache list
-   * @param list list of caches
-   */
-  void storeCacheList(CacheList list);
+  @OneToMany(fetch= FetchType.LAZY)
+  public List<Cache> getCaches() {
+    return caches;
+  }
+
+  public void setCaches(List<Cache> caches) {
+    this.caches = caches;
+  }
+
+  public void addCache(Cache cache) {
+    if (!getCaches().contains(cache)) {
+      getCaches().add(cache);
+    }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    CacheList cacheList = (CacheList) o;
+
+    if (!name.equals(cacheList.name)) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return name.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "CacheList{" +
+        "name='" + name + '\'' +
+        '}';
+  }
 }

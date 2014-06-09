@@ -7,10 +7,7 @@ package de.geofroggerfx.service;
 
 import de.geofroggerfx.application.ProgressEvent;
 import de.geofroggerfx.application.ProgressListener;
-import de.geofroggerfx.model.Attribute;
-import de.geofroggerfx.model.Cache;
-import de.geofroggerfx.model.Log;
-import de.geofroggerfx.model.TravelBug;
+import de.geofroggerfx.model.*;
 import de.geofroggerfx.sql.DatabaseService;
 
 import javax.inject.Inject;
@@ -99,6 +96,7 @@ public class CacheServiceImpl implements CacheService {
   public List<Cache> getAllCaches(CacheSortField sortField, SortDirection direction) {
 
     List<Cache> caches = new ArrayList<>();
+
     try {
       EntityManager em = dbService.getEntityManager();
       String query = "select c from Cache c order by c."+sortField.getFieldName()+" "+direction.toString();
@@ -117,6 +115,39 @@ public class CacheServiceImpl implements CacheService {
     listeners.stream().forEach((l) -> l.progress(event));
   }
 
+  /**
+   * Receive all cache lists
+   */
+  @Override
+  public List<CacheList> getAllCacheLists() {
+    List<CacheList> lists = new ArrayList<>();
+    try {
+      EntityManager em = dbService.getEntityManager();
+      String query = "select l from CacheList l order by l.name";
+      List<CacheList> result = em.createQuery(query).getResultList();
+      if (result != null) {
+        lists = result;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
+    return lists;
+  }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void storeCacheList(CacheList list) {
+    EntityManager em = dbService.getEntityManager();
+    try {
+      em.getTransaction().begin();
+      em.persist(list);
+      em.getTransaction().commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      em.getTransaction().rollback();
+    }
+  }
 }

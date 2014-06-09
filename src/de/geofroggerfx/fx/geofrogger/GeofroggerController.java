@@ -39,8 +39,11 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import org.controlsfx.dialog.Dialog;
 
@@ -101,6 +104,7 @@ public class GeofroggerController implements Initializable {
   private SessionContext sessionContext;
   private final LoadCachesFromFileService loadService = new LoadCachesFromFileService();
   private final LoadCachesFromDatabaseService loadFromDBService = new LoadCachesFromDatabaseService();
+  private final LoadCacheListsFromDatabaseService loadListsFromDBService = new LoadCacheListsFromDatabaseService();
 
   @Inject
   private GPXReader gpxReader;
@@ -120,6 +124,13 @@ public class GeofroggerController implements Initializable {
   @FXML
   private Menu pluginsMenu;
 
+  @FXML
+  private BorderPane mainPane;
+
+  @FXML
+  private SplitPane contentPane;
+
+
   /**
    * Initializes the controller class.
    *
@@ -138,6 +149,7 @@ public class GeofroggerController implements Initializable {
 
     gpxReader.addListener((ProgressEvent event) -> updateStatus(event.getMessage(), event.getProgress()));
     cacheService.addListener((ProgressEvent event) -> updateStatus(event.getMessage(), event.getProgress()));
+    loadListsFromDBService.start();
     loadFromDBService.start();
   }
 
@@ -165,6 +177,13 @@ public class GeofroggerController implements Initializable {
   }
 
   @FXML
+  public void showSettings(ActionEvent actionEvent) {
+//    mainPane.setCenter();
+
+//    FXMLLoader.load()
+  }
+
+  @FXML
   public void exit(ActionEvent actionEvent) {
     Platform.exit();
   }
@@ -175,6 +194,25 @@ public class GeofroggerController implements Initializable {
       progress.setProgress(progressValue);
     });
   }
+
+
+  private class LoadCacheListsFromDatabaseService extends Service {
+
+    @Override
+    protected Task createTask() {
+      return new Task() {
+        @Override
+        protected Void call() throws Exception {
+          updateStatus("Load cache lists from database.", ProgressIndicator.INDETERMINATE_PROGRESS);
+          sessionContext.setData("cache-lists", cacheService.getAllCacheLists());
+          updateStatus("All cache lists loaded.", 0);
+          return null;
+        }
+      };
+    }
+
+  }
+
 
   private class LoadCachesFromDatabaseService extends Service {
 

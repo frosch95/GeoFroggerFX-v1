@@ -16,6 +16,7 @@
         <Label fx:id="cacheNumber" alignment="CENTER_LEFT" minWidth="60.0" prefWidth="-1.0" maxWidth="Infinity"
                style="&#10;" text="(0)" textAlignment="LEFT" textFill="WHITE" wrapText="false" HBox.hgrow="ALWAYS">
         </Label>
+        <ComboBox fx:id="cacheListComboBox"/>
         <MenuButton fx:id="menuIcon"/>
       </children>
       <padding>

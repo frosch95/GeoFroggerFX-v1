@@ -12,14 +12,21 @@
     <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="details-header"
           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
+        <Label fx:id="detailsIconHeader" alignment="CENTER_LEFT" maxWidth="-1.0" text="" textAlignment="LEFT"
+                 wrapText="false" HBox.hgrow="ALWAYS"/>
+
         <Label fx:id="cacheNameHeader" maxWidth="1.7976931348623157E308" text="" textFill="WHITE" underline="false"
                HBox.hgrow="ALWAYS">
           <font>
             <Font size="16.0"/>
           </font>
         </Label>
-        <Label fx:id="detailsIconHeader" alignment="CENTER_RIGHT" maxWidth="-1.0" text="" textAlignment="LEFT"
-               wrapText="false" HBox.hgrow="ALWAYS"/>
+          <AnchorPane prefHeight="40.0">
+            <children>
+              <MenuButton fx:id="addToListMenuButton" mnemonicParsing="false" text="Add to list" AnchorPane.rightAnchor="10.0" />
+              <Button mnemonicParsing="false" onAction="#editCache" text="Edit coordinates" AnchorPane.rightAnchor="100.0" />
+            </children>
+          </AnchorPane>
       </children>
       <padding>
         <Insets left="16.0" right="16.0"/>
