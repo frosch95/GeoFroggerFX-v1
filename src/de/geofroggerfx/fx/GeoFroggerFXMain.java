@@ -33,6 +33,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
+import org.scenicview.ScenicView;
 
 import javax.enterprise.util.AnnotationLiteral;
 

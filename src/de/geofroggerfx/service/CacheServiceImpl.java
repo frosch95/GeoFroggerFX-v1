@@ -135,6 +135,33 @@ public class CacheServiceImpl implements CacheService {
     return lists;
   }
 
+  @Override
+  public boolean doesCacheListNameExist(String name) {
+    boolean doesExist = false;
+    try {
+      EntityManager em = dbService.getEntityManager();
+      String query = "select count(l) from CacheList l where l.name = :name";
+      Long result = (Long)em.createQuery(query).setParameter("name", name).getSingleResult();
+      doesExist = result > 0;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return doesExist;
+  }
+
+  @Override
+  public void deleteCacheList(CacheList cacheList) {
+    EntityManager em = dbService.getEntityManager();
+    try {
+      em.getTransaction().begin();
+      em.remove(cacheList);
+      em.getTransaction().commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      em.getTransaction().rollback();
+    }
+  }
+
   /**
    * {@inheritDoc}
    */

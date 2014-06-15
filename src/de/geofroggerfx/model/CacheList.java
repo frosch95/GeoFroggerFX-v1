@@ -84,8 +84,6 @@ public class CacheList {
 
   @Override
   public String toString() {
-    return "CacheList{" +
-        "name='" + name + '\'' +
-        '}';
+    return getName();
   }
 }

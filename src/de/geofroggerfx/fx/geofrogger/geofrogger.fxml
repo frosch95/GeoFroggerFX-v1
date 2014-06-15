@@ -18,6 +18,12 @@
             <MenuItem mnemonicParsing="false" onAction="#exit" text="%menu.title.quit"/>
           </items>
         </Menu>
+        <Menu mnemonicParsing="false" text="%menu.title.list">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#newList" text="%menu.title.list.new"/>
+            <MenuItem mnemonicParsing="false" onAction="#deleteList" text="%menu.title.list.delete"/>
+          </items>
+        </Menu>
         <Menu fx:id="pluginsMenu" mnemonicParsing="false" text="%menu.title.plugins"/>
         <Menu mnemonicParsing="false" text="%menu.title.help">
           <items>

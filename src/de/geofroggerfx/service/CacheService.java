@@ -64,8 +64,21 @@ public interface CacheService {
   List<CacheList> getAllCacheLists();
 
   /**
+   * Test if a cache list with the given name already exists
+   * @param name of the cache list
+   * @return true if a list with the given name exists
+   */
+  boolean doesCacheListNameExist(String name);
+
+  /**
    * Stores a cache list
    * @param list list of caches
    */
   void storeCacheList(CacheList list);
+
+  /**
+   * Deletes a cache list
+   * @param cacheList deletes the given cache list
+   */
+  void deleteCacheList(CacheList cacheList);
 }

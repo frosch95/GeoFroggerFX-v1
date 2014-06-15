@@ -41,6 +41,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
+import org.scenicview.ScenicView;
 
 import javax.inject.Inject;
 import java.net.URL;
@@ -115,7 +116,7 @@ public class CacheListController implements Initializable {
   @SuppressWarnings("unchecked")
   private void resetCacheList() {
     List<Cache> caches = (List<Cache>) sessionContext.getData("cache-list");
-    cacheNumber.setText("(" + caches.size() + ")");
+    cacheNumber.setText(" " + caches.size());
     cacheListView.getItems().setAll(caches);
   }
 
@@ -153,6 +154,9 @@ public class CacheListController implements Initializable {
     addClasses(menuIcon, CACHE_LIST_ACTION_ICONS);
     menuIcon.setGraphic(new ImageView(IconManager.getIcon("iconmonstr-menu-icon.png", IconManager.IconSize.SMALL)));
     menuIcon.getItems().addAll(createSortMenu(rb));
+    menuIcon.minHeightProperty().bind(cacheListComboBox.heightProperty());
+    menuIcon.prefHeightProperty().bind(cacheListComboBox.heightProperty());
+    menuIcon.maxHeightProperty().bind(cacheListComboBox.heightProperty());
   }
 
   private Menu createSortMenu(final ResourceBundle rb) {

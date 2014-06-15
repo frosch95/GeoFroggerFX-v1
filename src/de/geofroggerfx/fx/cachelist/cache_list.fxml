@@ -1,32 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 <?import java.net.URL?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="de.geofroggerfx.fx.cachelist.CacheListController">
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="de.geofroggerfx.fx.cachelist.CacheListController">
   <children>
-    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="cache-header"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="cache-header" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-        <Label alignment="CENTER_LEFT" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="%label.text.cache.list"
-               textAlignment="LEFT" textFill="WHITE" wrapText="false">
-        </Label>
-        <Label fx:id="cacheNumber" alignment="CENTER_LEFT" minWidth="60.0" prefWidth="-1.0" maxWidth="Infinity"
-               style="&#10;" text="(0)" textAlignment="LEFT" textFill="WHITE" wrapText="false" HBox.hgrow="ALWAYS">
-        </Label>
-        <ComboBox fx:id="cacheListComboBox"/>
-        <MenuButton fx:id="menuIcon"/>
+        <Label alignment="CENTER_LEFT" prefWidth="-1.0" style="&#10;" text="%label.text.cache.list" textAlignment="LEFT" textFill="WHITE" wrapText="false">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></Label>
+        <ComboBox fx:id="cacheListComboBox" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></ComboBox>
+        <MenuButton fx:id="menuIcon" minHeight="16.0" />
       </children>
       <padding>
-        <Insets left="16.0" right="16.0" fx:id="x2"/>
+        <Insets left="16.0" right="16.0" />
       </padding>
     </HBox>
-    <ListView fx:id="cacheListView" prefHeight="507.0" prefWidth="221.0" AnchorPane.bottomAnchor="0.0"
-              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0"/>
+    <ListView fx:id="cacheListView" prefHeight="507.0" prefWidth="221.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+
+    <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="221.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <children>
+          <Label alignment="CENTER_LEFT" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="%label.text.cache.list.count" textAlignment="LEFT" wrapText="false" />
+          <Label fx:id="cacheNumber" />
+      </children>
+
+      <padding>
+        <Insets left="16.0" right="16.0" />
+      </padding>
+    </HBox>
   </children>
   <stylesheets>
-    <URL value="@/de/geofroggerfx/fx/geofrogger.css"/>
+    <URL value="@/de/geofroggerfx/fx/geofrogger.css" />
   </stylesheets>
 </AnchorPane>

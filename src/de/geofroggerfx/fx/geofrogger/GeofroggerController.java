@@ -29,6 +29,7 @@ import de.geofroggerfx.application.ProgressEvent;
 import de.geofroggerfx.application.SessionContext;
 import de.geofroggerfx.gpx.GPXReader;
 import de.geofroggerfx.model.Cache;
+import de.geofroggerfx.model.CacheList;
 import de.geofroggerfx.plugins.Plugin;
 import de.geofroggerfx.plugins.PluginService;
 import de.geofroggerfx.service.CacheService;
@@ -39,19 +40,20 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import org.controlsfx.dialog.Dialog;
+import org.controlsfx.dialog.Dialogs;
+import org.scenicview.ScenicView;
 
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -184,6 +186,41 @@ public class GeofroggerController implements Initializable {
   }
 
   @FXML
+  public void newList(ActionEvent actionEvent) {
+    final Optional<String> listNameOption = Dialogs.
+        create().
+        title("New list").
+        message("List name").
+        showTextInput();
+    if (hasValue(listNameOption)) {
+      final String listName = listNameOption.get().trim();
+      if (cacheService.doesCacheListNameExist(listName)) {
+        Dialogs.create().message("List does already exist!").showError();
+      } else {
+        CacheList list = new CacheList();
+        list.setName(listName);
+        cacheService.storeCacheList(list);
+        sessionContext.setData("cache-lists", cacheService.getAllCacheLists());
+      }
+    }
+  }
+
+
+  @FXML
+  public void deleteList(ActionEvent actionEvent) {
+    final Optional<CacheList> listOption = Dialogs.
+        create().
+        title("Delete list").
+        message("List name").
+        showChoices(cacheService.getAllCacheLists());
+
+    if (listOption.isPresent()) {
+      cacheService.deleteCacheList(listOption.get());
+      sessionContext.setData("cache-lists", cacheService.getAllCacheLists());
+    }
+  }
+
+  @FXML
   public void exit(ActionEvent actionEvent) {
     Platform.exit();
   }
@@ -195,6 +232,9 @@ public class GeofroggerController implements Initializable {
     });
   }
 
+  private boolean hasValue(Optional<String> listNameOption) {
+    return listNameOption.isPresent() && !listNameOption.get().trim().isEmpty();
+  }
 
   private class LoadCacheListsFromDatabaseService extends Service {
 
