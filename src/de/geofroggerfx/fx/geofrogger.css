@@ -4,7 +4,6 @@
 }
 
 .menu-bar {
-    -fx-background-color: #aeb5ba, linear-gradient(to bottom, #ecf4fa 0%, #ced4d9 100%);
     -fx-background-insets: 0, 0 0 1 0;
 }
 
@@ -20,10 +19,6 @@
 .scroll-pane {
     -fx-background-insets: 0, 0;
     -fx-padding: 0;
-}
-
-.form {
-    -fx-background-color: #aeb5ba, linear-gradient(to bottom, #ecf4fa 0%, #ced4d9 100%);
 }
 
 .details-header,
