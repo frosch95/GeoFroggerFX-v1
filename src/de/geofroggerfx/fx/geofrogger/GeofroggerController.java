@@ -26,6 +26,7 @@
 package de.geofroggerfx.fx.geofrogger;
 
 import de.geofroggerfx.application.ProgressEvent;
+import de.geofroggerfx.application.SessionConstants;
 import de.geofroggerfx.application.SessionContext;
 import de.geofroggerfx.gpx.GPXReader;
 import de.geofroggerfx.model.Cache;
@@ -58,8 +59,11 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static de.geofroggerfx.application.SessionConstants.CACHE_LIST;
+import static de.geofroggerfx.application.SessionConstants.CACHE_LISTS;
 import static de.geofroggerfx.service.CacheSortField.NAME;
 import static de.geofroggerfx.service.SortDirection.ASC;
+import static java.util.logging.Level.SEVERE;
 
 /**
  * FXML Controller class
@@ -69,7 +73,7 @@ import static de.geofroggerfx.service.SortDirection.ASC;
 public class GeofroggerController implements Initializable {
 
   private static final String LICENSE = "/*\n" +
-      " * Copyright (c) 2013, Andreas Billmann <abi@geofroggerfx.de>\n" +
+      " * Copyright (c) 2013-2014, Andreas Billmann <abi@geofroggerfx.de>\n" +
       " * All rights reserved.\n" +
       " *\n" +
       " * Redistribution and use in source and binary forms, with or without\n" +
@@ -97,7 +101,7 @@ public class GeofroggerController implements Initializable {
   private static final String MASTHEAD_TEXT = "GeoFroggerFX by Andreas Billmann <abi@geofroggerfx.de>";
   private static final String ABOUT_TEXT = "Used libs:\n"
       + "\t- JFXtras 8.0 r1\n"
-      + "\t- ControlsFX 8.0.2 developer preview 1\n"
+      + "\t- ControlsFX 8.0.6\n"
       + "\t- jdom 2.x\n"
       + "\t- H2 1.3.173\n"
       + "\t- Icons by http://iconmonstr.com/\n";
@@ -107,6 +111,7 @@ public class GeofroggerController implements Initializable {
   private final LoadCachesFromFileService loadService = new LoadCachesFromFileService();
   private final LoadCachesFromDatabaseService loadFromDBService = new LoadCachesFromDatabaseService();
   private final LoadCacheListsFromDatabaseService loadListsFromDBService = new LoadCacheListsFromDatabaseService();
+  private ResourceBundle resourceBundle;
 
   @Inject
   private GPXReader gpxReader;
@@ -142,6 +147,8 @@ public class GeofroggerController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle rb) {
 
+    resourceBundle = rb;
+
     List<Plugin> plugins = pluginService.getAllPlugins();
     for (Plugin plugin: plugins) {
       MenuItem menuItem = new MenuItem(plugin.getName()+" ("+plugin.getVersion()+")");
@@ -171,7 +178,7 @@ public class GeofroggerController implements Initializable {
 
   @FXML
   public void showAboutDialog(ActionEvent actionEvent) {
-    Dialog dialog = new Dialog(null, "About");
+    Dialog dialog = new Dialog(null, resourceBundle.getString("dialog.title.about"));
     dialog.setMasthead(MASTHEAD_TEXT);
     dialog.setContent(ABOUT_TEXT);
     dialog.setExpandableContent(new TextArea(LICENSE));
@@ -189,40 +196,46 @@ public class GeofroggerController implements Initializable {
   public void newList(ActionEvent actionEvent) {
     final Optional<String> listNameOption = Dialogs.
         create().
-        title("New list").
-        message("List name").
+        title(resourceBundle.getString("dialog.title.new_list")).
+        message(resourceBundle.getString("dialog.label.listname")).
         showTextInput();
     if (hasValue(listNameOption)) {
       final String listName = listNameOption.get().trim();
       if (cacheService.doesCacheListNameExist(listName)) {
-        Dialogs.create().message("List does already exist!").showError();
+        Dialogs.
+            create().
+            message(resourceBundle.getString("dialog.msg.list.does.exist")).
+            showError();
       } else {
         CacheList list = new CacheList();
         list.setName(listName);
         cacheService.storeCacheList(list);
-        sessionContext.setData("cache-lists", cacheService.getAllCacheLists());
+        setCacheListInContext();
       }
     }
   }
-
 
   @FXML
   public void deleteList(ActionEvent actionEvent) {
     final Optional<CacheList> listOption = Dialogs.
         create().
-        title("Delete list").
-        message("List name").
+        title("dialog.title.delete_list").
+        message("dialog.label.listname").
         showChoices(cacheService.getAllCacheLists());
 
     if (listOption.isPresent()) {
       cacheService.deleteCacheList(listOption.get());
-      sessionContext.setData("cache-lists", cacheService.getAllCacheLists());
+      setCacheListInContext();
     }
   }
 
   @FXML
   public void exit(ActionEvent actionEvent) {
     Platform.exit();
+  }
+
+  private void setCacheListInContext() {
+    sessionContext.setData(CACHE_LISTS, cacheService.getAllCacheLists());
   }
 
   private void updateStatus(String text, double progressValue) {
@@ -243,9 +256,9 @@ public class GeofroggerController implements Initializable {
       return new Task() {
         @Override
         protected Void call() throws Exception {
-          updateStatus("Load cache lists from database.", ProgressIndicator.INDETERMINATE_PROGRESS);
-          sessionContext.setData("cache-lists", cacheService.getAllCacheLists());
-          updateStatus("All cache lists loaded.", 0);
+          updateStatus(resourceBundle.getString("status.load.all.caches.from.db"), ProgressIndicator.INDETERMINATE_PROGRESS);
+          sessionContext.setData(CACHE_LISTS, cacheService.getAllCacheLists());
+          updateStatus(resourceBundle.getString("status.all.cache.lists.loaded"), 0);
           return null;
         }
       };
@@ -261,9 +274,9 @@ public class GeofroggerController implements Initializable {
       return new Task() {
         @Override
         protected Void call() throws Exception {
-          updateStatus("Load caches from database.", ProgressIndicator.INDETERMINATE_PROGRESS);
-          sessionContext.setData("cache-list", cacheService.getAllCaches(NAME, ASC));
-          updateStatus("All caches loaded.", 0);
+          updateStatus(resourceBundle.getString("status.load.caches.from.db"), ProgressIndicator.INDETERMINATE_PROGRESS);
+          sessionContext.setData(CACHE_LIST, cacheService.getAllCaches(NAME, ASC));
+          updateStatus(resourceBundle.getString("status.all.caches.loaded"), 0);
           return null;
         }
       };
@@ -296,16 +309,16 @@ public class GeofroggerController implements Initializable {
             final List<Cache> cacheList = gpxReader.load(file.get().getAbsolutePath());
             if (cacheList != null && !cacheList.isEmpty()) {
 
-              updateStatus("Store caches in database", ProgressIndicator.INDETERMINATE_PROGRESS);
+              updateStatus(resourceBundle.getString("status.store.all.caches"), ProgressIndicator.INDETERMINATE_PROGRESS);
               cacheService.storeCaches(cacheList);
-              updateStatus("All caches are stored in database", 0);
+              updateStatus(resourceBundle.getString("status.all.caches.stored"), 0);
 
-              updateStatus("Load caches from database.", ProgressIndicator.INDETERMINATE_PROGRESS);
-              sessionContext.setData("cache-list", cacheService.getAllCaches(NAME, ASC));
-              updateStatus("All caches loaded.", 0);
+              updateStatus(resourceBundle.getString("status.load.caches.from.db"), ProgressIndicator.INDETERMINATE_PROGRESS);
+              sessionContext.setData(CACHE_LIST, cacheService.getAllCaches(NAME, ASC));
+              updateStatus(resourceBundle.getString("status.all.caches.loaded"), 0);
             }
           } catch (IOException ex) {
-            Logger.getLogger(GeofroggerController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GeofroggerController.class.getName()).log(SEVERE, null, ex);
           }
           return null;
         }

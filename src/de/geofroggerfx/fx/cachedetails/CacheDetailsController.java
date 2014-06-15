@@ -25,6 +25,7 @@
  */
 package de.geofroggerfx.fx.cachedetails;
 
+import de.geofroggerfx.application.SessionConstants;
 import de.geofroggerfx.application.SessionContext;
 import de.geofroggerfx.application.SessionContextListener;
 import de.geofroggerfx.fx.components.MapPaneWrapper;
@@ -55,6 +56,9 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static de.geofroggerfx.application.SessionConstants.CACHE_LISTS;
+import static de.geofroggerfx.application.SessionConstants.CURRENT_CACHE;
 
 /**
  * FXML Controller class
@@ -137,7 +141,7 @@ public class CacheDetailsController implements Initializable, SessionContextList
 
   @Override
   public void sessionContextChanged() {
-    Cache currentCache = (Cache) sessionContext.getData("current-cache");
+    Cache currentCache = (Cache) sessionContext.getData(CURRENT_CACHE);
     if (currentCache != null) {
       fillForm(currentCache);
       fadeIn();
@@ -154,13 +158,13 @@ public class CacheDetailsController implements Initializable, SessionContextList
 
 
   private void setSessionListener() {
-    sessionContext.addListener("current-cache", this);
-    sessionContext.addListener("cache-lists", () -> Platform.runLater(this::refreshCacheListMenu));
+    sessionContext.addListener(CURRENT_CACHE, this);
+    sessionContext.addListener(CACHE_LISTS, () -> Platform.runLater(this::refreshCacheListMenu));
   }
 
   @SuppressWarnings("unchecked")
   private void refreshCacheListMenu() {
-    List<CacheList> cacheLists = (List<CacheList>) sessionContext.getData("cache-lists");
+    List<CacheList> cacheLists = (List<CacheList>) sessionContext.getData(CACHE_LISTS);
     addToListMenuButton.getItems().clear();
     cacheLists.stream().forEach(this::addToListMenuItem);
   }
@@ -173,7 +177,7 @@ public class CacheDetailsController implements Initializable, SessionContextList
   }
 
   private void addCacheAction(CacheList cacheList) {
-    Cache currentCache = (Cache) sessionContext.getData("current-cache");
+    Cache currentCache = (Cache) sessionContext.getData(CURRENT_CACHE);
     cacheList.addCache(currentCache);
     cacheService.storeCacheList(cacheList);
   }

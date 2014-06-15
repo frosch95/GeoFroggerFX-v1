@@ -170,7 +170,7 @@ public class CacheServiceImpl implements CacheService {
     EntityManager em = dbService.getEntityManager();
     try {
       em.getTransaction().begin();
-      em.persist(list);
+      em.merge(list);
       em.getTransaction().commit();
     } catch (Exception e) {
       e.printStackTrace();

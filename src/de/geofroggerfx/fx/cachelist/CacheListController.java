@@ -25,6 +25,7 @@
  */
 package de.geofroggerfx.fx.cachelist;
 
+import de.geofroggerfx.application.SessionConstants;
 import de.geofroggerfx.application.SessionContext;
 import de.geofroggerfx.fx.components.CacheListCell;
 import de.geofroggerfx.fx.components.IconManager;
@@ -48,6 +49,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static de.geofroggerfx.application.SessionConstants.*;
 import static de.geofroggerfx.fx.utils.JavaFXUtils.addClasses;
 import static de.geofroggerfx.service.CacheSortField.*;
 
@@ -59,6 +61,8 @@ import static de.geofroggerfx.service.CacheSortField.*;
 public class CacheListController implements Initializable {
 
   private static final String CACHE_LIST_ACTION_ICONS = "cache-list-action-icons";
+
+  private ResourceBundle resourceBundle;
 
   @Inject
   private SessionContext sessionContext;
@@ -89,16 +93,18 @@ public class CacheListController implements Initializable {
   @Override
   @SuppressWarnings("unchecked")
   public void initialize(URL url, ResourceBundle rb) {
+    this.resourceBundle = rb;
+
     setSessionListener();
     setCellFactory();
 
     cacheListView.getSelectionModel().selectedItemProperty().addListener(
         (ChangeListener<Cache>) (ObservableValue<? extends Cache> ov, Cache oldValue, Cache newValue) ->
-            sessionContext.setData("current-cache", newValue)
+            sessionContext.setData(CURRENT_CACHE, newValue)
     );
 
     initCacheListComboBox();
-    initListMenuButton(rb);
+    initListMenuButton();
   }
 
   @SuppressWarnings("unchecked")
@@ -109,22 +115,22 @@ public class CacheListController implements Initializable {
   }
 
   private void setSessionListener() {
-    sessionContext.addListener("cache-list", () -> Platform.runLater(this::resetCacheList));
-    sessionContext.addListener("cache-lists", () -> Platform.runLater(this::refreshCacheListComboAndSelectFirst));
+    sessionContext.addListener(CACHE_LIST, () -> Platform.runLater(this::resetCacheList));
+    sessionContext.addListener(CACHE_LISTS, () -> Platform.runLater(this::refreshCacheListComboAndSelectFirst));
   }
 
   @SuppressWarnings("unchecked")
   private void resetCacheList() {
-    List<Cache> caches = (List<Cache>) sessionContext.getData("cache-list");
+    List<Cache> caches = (List<Cache>) sessionContext.getData(CACHE_LIST);
     cacheNumber.setText(" " + caches.size());
     cacheListView.getItems().setAll(caches);
   }
 
   @SuppressWarnings("unchecked")
   private void refreshCacheListComboAndSelectFirst() {
-    List<CacheList> cacheLists = (List<CacheList>) sessionContext.getData("cache-lists");
+    List<CacheList> cacheLists = (List<CacheList>) sessionContext.getData(CACHE_LISTS);
     cacheListComboBox.getItems().clear();
-    cacheListComboBox.getItems().add("All caches");
+    cacheListComboBox.getItems().add(resourceBundle.getString("all.caches"));
     cacheListComboBox.getItems().addAll(cacheLists);
     cacheListComboBox.getSelectionModel().selectFirst();
   }
@@ -139,42 +145,42 @@ public class CacheListController implements Initializable {
 
   private void cacheListSelectAction(Object selectedItem) {
     if (selectedItem != null) {
-      if (selectedItem.equals("All caches")) {
+      if (selectedItem.equals(resourceBundle.getString("all.caches"))) {
         loadAllCaches();
       } else{
         CacheList cacheList = (CacheList)selectedItem;
-        sessionContext.setData("cache-list", cacheList.getCaches());
+        sessionContext.setData(CACHE_LIST, cacheList.getCaches());
       }
     } else {
       cacheListComboBox.getSelectionModel().selectFirst();
     }
   }
 
-  private void initListMenuButton(final ResourceBundle rb) {
+  private void initListMenuButton() {
     addClasses(menuIcon, CACHE_LIST_ACTION_ICONS);
     menuIcon.setGraphic(new ImageView(IconManager.getIcon("iconmonstr-menu-icon.png", IconManager.IconSize.SMALL)));
-    menuIcon.getItems().addAll(createSortMenu(rb));
+    menuIcon.getItems().addAll(createSortMenu());
     menuIcon.minHeightProperty().bind(cacheListComboBox.heightProperty());
     menuIcon.prefHeightProperty().bind(cacheListComboBox.heightProperty());
     menuIcon.maxHeightProperty().bind(cacheListComboBox.heightProperty());
   }
 
-  private Menu createSortMenu(final ResourceBundle rb) {
-    Menu sortMenu = new Menu(rb.getString("menu.title.sort"));
-    currentSortingButton = createSortButton(rb, NAME);
+  private Menu createSortMenu() {
+    Menu sortMenu = new Menu(resourceBundle.getString("menu.title.sort"));
+    currentSortingButton = createSortButton(NAME);
     currentSortingButton.setSelected(true);
     sortMenu.getItems().addAll(
         currentSortingButton,
-        createSortButton(rb, TYPE),
-        createSortButton(rb, DIFFICULTY),
-        createSortButton(rb, TERRAIN),
-        createSortButton(rb, OWNER),
-        createSortButton(rb, PLACEDBY));
+        createSortButton(TYPE),
+        createSortButton(DIFFICULTY),
+        createSortButton(TERRAIN),
+        createSortButton(OWNER),
+        createSortButton(PLACEDBY));
     return sortMenu;
   }
 
-  private SortingMenuItem createSortButton(final ResourceBundle rb, final CacheSortField field) {
-    SortingMenuItem button = new SortingMenuItem(rb.getString("sort.cache."+field.getFieldName()), field);
+  private SortingMenuItem createSortButton(final CacheSortField field) {
+    SortingMenuItem button = new SortingMenuItem(resourceBundle.getString("sort.cache."+field.getFieldName()), field);
     button.setOnAction(actionEvent -> {
 
       // if there was another button selected, change the selection
@@ -190,8 +196,7 @@ public class CacheListController implements Initializable {
   }
 
   private void loadAllCaches() {
-    sessionContext.setData("cache-list", cacheService.getAllCaches(currentSortingButton.getField(), currentSortingButton.getSortDirection()));
+    sessionContext.setData(CACHE_LIST, cacheService.getAllCaches(currentSortingButton.getField(), currentSortingButton.getSortDirection()));
   }
-
 
 }
