@@ -65,3 +65,14 @@ dependencies {
 task wrapper(type: Wrapper) {
   gradleVersion = '1.7'
 }
+
+///////////////////////////////////////////////////////////////////////////////////
+// little workaround                                                             //
+// beans.xml has to be placed under the classes directory                        //
+///////////////////////////////////////////////////////////////////////////////////
+run.doFirst {
+    copy {
+        from 'build/resources/main/META-INF/beans.xml'
+        into 'build/classes/main/META-INF/'
+    }
+}
