@@ -25,16 +25,11 @@
  */
 package de.geofroggerfx.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 /**
  * @author Andreas Billmann
  */
-@Entity
 public class User {
 
-  @Id
   private Long id;
   private String name;
 

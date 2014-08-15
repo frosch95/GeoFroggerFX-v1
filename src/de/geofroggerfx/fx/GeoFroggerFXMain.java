@@ -84,7 +84,7 @@ public class GeoFroggerFXMain extends Application {
 
   @Override
   public void stop() throws Exception {
-    weldContainer.instance().select(DatabaseService.class).get().getEntityManager().close();
+    weldContainer.instance().select(DatabaseService.class).get().close();
     weld.shutdown();
     super.stop();
   }

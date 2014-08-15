@@ -25,9 +25,9 @@
  */
 package de.geofroggerfx.sql;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
+import com.orientechnologies.orient.core.db.record.ODatabaseRecord;
+import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 
 /**
  * @author Andreas
@@ -35,18 +35,34 @@ import javax.persistence.Persistence;
 public class DatabaseServiceImpl implements DatabaseService {
 
   private static final String PERSISTENCE_UNIT_NAME = "geocaches";
-  private EntityManagerFactory factory;
-  private EntityManager em;
+  private OObjectDatabaseTx db ;
 
   public DatabaseServiceImpl() {
-    factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    em = factory.createEntityManager();
+    db = new OObjectDatabaseTx("plocal:./"+PERSISTENCE_UNIT_NAME);
+    if (!db.exists()) {
+      db.create();
+    } else {
+      db.open("admin", "admin");
+    }
+
+
+    db.getEntityManager().registerEntityClasses("de.geofroggerfx.model");
+  }
+
+
+  @Override
+  public OObjectDatabaseTx getDatabase() {
+    assert (db != null) : "no database available";
+    ODatabaseRecordThreadLocal.INSTANCE.set(db.getUnderlying().getUnderlying());
+    return db;
   }
 
   @Override
-  public EntityManager getEntityManager() {
-    assert (em != null) : "no entity manager available";
-    return em;
+  public void close() {
+    assert (db != null) : "no database available";
+    if (!db.isClosed()) {
+      db.close();
+    }
   }
 
 }

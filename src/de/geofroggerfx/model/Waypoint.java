@@ -25,25 +25,22 @@
  */
 package de.geofroggerfx.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author Andreas Billmann
  */
-@Entity
 public class Waypoint {
 
-  @Id
   private Long id;
   private double latitude;
   private double longitude;
   private String name;
-  private LocalDateTime time;
+  private Date time;
   private String description;
-  private URL url;
+  private String url;
   private String urlName;
   private String symbol;
   private String type;
@@ -72,11 +69,11 @@ public class Waypoint {
     this.longitude = longitude;
   }
 
-  public void setTime(LocalDateTime time) {
+  public void setTime(Date time) {
     this.time = time;
   }
 
-  public LocalDateTime getTime() {
+  public Date getTime() {
     return time;
   }
 
@@ -96,11 +93,11 @@ public class Waypoint {
     this.description = description;
   }
 
-  public URL getUrl() {
+  public String getUrl() {
     return url;
   }
 
-  public void setUrl(URL url) {
+  public void setUrl(String url) {
     this.url = url;
   }
 

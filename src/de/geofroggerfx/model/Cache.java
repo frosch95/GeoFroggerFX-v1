@@ -25,16 +25,13 @@
  */
 package de.geofroggerfx.model;
 
-import javax.persistence.*;
 import java.util.List;
 
 /**
  * @author Andreas Billmann
  */
-@Entity
 public class Cache {
 
-  @Id
   private Long id;
   private boolean available;
   private boolean archived;
@@ -58,7 +55,6 @@ public class Cache {
   private List<TravelBug> travelBugs;
   private Waypoint mainWayPoint;
 
-  @OneToOne(fetch=FetchType.LAZY)
   public Waypoint getMainWayPoint() {
     return mainWayPoint;
   }
@@ -107,7 +103,6 @@ public class Cache {
     this.placedBy = placedBy;
   }
 
-  @OneToOne(fetch=FetchType.LAZY)
   public User getOwner() {
     return owner;
   }
@@ -116,7 +111,6 @@ public class Cache {
     this.owner = owner;
   }
 
-  @Enumerated(EnumType.STRING)
   public Type getType() {
     return type;
   }
@@ -133,7 +127,6 @@ public class Cache {
     this.container = container;
   }
 
-  @ManyToMany(fetch=FetchType.LAZY)
   public List<Attribute> getAttributes() {
     return attributes;
   }
@@ -214,7 +207,6 @@ public class Cache {
     this.encodedHints = encodedHints;
   }
 
-  @OneToMany(fetch=FetchType.LAZY)
   public List<Log> getLogs() {
     return logs;
   }
@@ -223,7 +215,6 @@ public class Cache {
     this.logs = logs;
   }
 
-  @OneToMany(fetch=FetchType.LAZY)
   public List<TravelBug> getTravelBugs() {
     return travelBugs;
   }

@@ -53,6 +53,7 @@ import jfxtras.labs.map.render.MapMarkable;
 import javax.inject.Inject;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -227,7 +228,7 @@ public class CacheDetailsController implements Initializable, SessionContextList
     icon.setImage(GeocachingIcons.getIcon(currentCache));
     placedByTextfield.setText(currentCache.getPlacedBy());
     ownerTextfield.setText(currentCache.getOwner().getName());
-    date.setValue(currentCache.getMainWayPoint().getTime().toLocalDate());
+    date.setValue(currentCache.getMainWayPoint().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
     typeTextfield.setText(currentCache.getType().toGroundspeakString());
     containerTextfield.setText(currentCache.getContainer());
     fillShortDescription(currentCache);

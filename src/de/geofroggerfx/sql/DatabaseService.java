@@ -25,11 +25,13 @@
  */
 package de.geofroggerfx.sql;
 
-import javax.persistence.EntityManager;
+
+import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 
 /**
  * @author Andreas
  */
 public interface DatabaseService {
-  EntityManager getEntityManager();
+  OObjectDatabaseTx getDatabase();
+  void close();
 }

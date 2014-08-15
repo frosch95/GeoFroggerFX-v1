@@ -36,16 +36,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * TODO: describe the class
@@ -94,6 +89,9 @@ public class GroundspeakGPXReader implements GPXReader {
   public static final String REF = "ref";
   public static final String DEFAULT_NAMESPACE_URL = "http://www.topografix.com/GPX/1/0";
   public static final String GROUNDSPEAK_NAMESPACE_URL = "http://www.groundspeak.com/cache/1/0/1";
+
+  // 2011-12-03T10:15:30+01:00
+  private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
   private final List<ProgressListener> listeners = new ArrayList<>();
 
@@ -204,14 +202,14 @@ public class GroundspeakGPXReader implements GPXReader {
       final Element cacheElement = waypointElement.getChild(CACHE, groundspeakNamespace);
       setId(cacheElement, mainWaypoint);
       parseCacheElement(cacheElement, cache);
-    } catch (DataConversionException | MalformedURLException e) {
+    } catch (DataConversionException | ParseException e) {
       // TODO: do some batch error handling
       e.printStackTrace();
     }
     return cache;
   }
 
-  private void parseCacheElement(Element cacheElement, Cache cache) throws DataConversionException {
+  private void parseCacheElement(Element cacheElement, Cache cache) throws DataConversionException, ParseException {
     setId(cacheElement, cache);
     setAvailable(cacheElement, cache);
     setArchived(cacheElement, cache);
@@ -259,7 +257,7 @@ public class GroundspeakGPXReader implements GPXReader {
     travelBug.setId(travelBugElement.getAttribute(ID).getLongValue());
   }
 
-  private void setLogs(Element cacheElement, Cache cache) throws DataConversionException {
+  private void setLogs(Element cacheElement, Cache cache) throws DataConversionException, ParseException {
     final Element logsElement = cacheElement.getChild(LOGS, groundspeakNamespace);
     if (logsElement != null) {
       final List<Log> logs = new ArrayList<>();
@@ -305,9 +303,9 @@ public class GroundspeakGPXReader implements GPXReader {
     log.setId(logElement.getAttribute(ID).getLongValue());
   }
 
-  private void setDate(Element logElement, Log log) {
+  private void setDate(Element logElement, Log log) throws ParseException {
     final String dateText = logElement.getChild(DATE, groundspeakNamespace).getTextTrim();
-    final LocalDateTime date = LocalDateTime.parse(dateText, DateTimeFormatter.ISO_DATE_TIME);
+    final Date date = DATE_FORMAT.parse(dateText);
     log.setDate(date);
   }
 
@@ -424,12 +422,12 @@ public class GroundspeakGPXReader implements GPXReader {
     waypoint.setSymbol(cacheElement.getChild(SYM, defaultNamespace).getTextTrim());
   }
 
-  private void setUrlName(Element cacheElement, Waypoint waypoint) throws MalformedURLException {
+  private void setUrlName(Element cacheElement, Waypoint waypoint) {
     waypoint.setUrlName(cacheElement.getChild(URLNAME, defaultNamespace).getTextTrim());
   }
 
-  private void setUrl(Element cacheElement, Waypoint waypoint) throws MalformedURLException {
-    waypoint.setUrl(new URL(cacheElement.getChild(URL, defaultNamespace).getTextTrim()));
+  private void setUrl(Element cacheElement, Waypoint waypoint) {
+    waypoint.setUrl(cacheElement.getChild(URL, defaultNamespace).getTextTrim());
   }
 
   private void setDescription(Element cacheElement, Waypoint waypoint) {
@@ -445,9 +443,9 @@ public class GroundspeakGPXReader implements GPXReader {
     waypoint.setLongitude(cacheElement.getAttribute(LON).getDoubleValue());
   }
 
-  private void setTime(Element cacheElement, Waypoint waypoint) {
+  private void setTime(Element cacheElement, Waypoint waypoint) throws ParseException {
     final String timeText = cacheElement.getChild(TIME, defaultNamespace).getTextTrim();
-    final LocalDateTime date = LocalDateTime.parse(timeText, DateTimeFormatter.ISO_DATE_TIME);
+    final Date date = DATE_FORMAT.parse(timeText);
     waypoint.setTime(date);
   }
 
