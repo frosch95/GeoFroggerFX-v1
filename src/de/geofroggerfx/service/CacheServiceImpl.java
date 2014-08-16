@@ -9,8 +9,7 @@ import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import de.geofroggerfx.application.ProgressEvent;
 import de.geofroggerfx.application.ProgressListener;
-import de.geofroggerfx.model.Cache;
-import de.geofroggerfx.model.CacheList;
+import de.geofroggerfx.model.*;
 import de.geofroggerfx.sql.DatabaseService;
 
 import javax.inject.Inject;
@@ -21,8 +20,6 @@ import java.util.List;
  * @author Andreas
  */
 public class CacheServiceImpl implements CacheService {
-
-  private static final int TRANSACTION_SIZE = 100;
 
   @Inject
   private DatabaseService dbService;
@@ -49,11 +46,22 @@ public class CacheServiceImpl implements CacheService {
               "Save caches to Database " + currentCacheNumber + " / " + numberOfCaches,
               (double) currentCacheNumber / (double) numberOfCaches));
 
+        Cache existingCache = findCacheById(cache.getId());
+        if (existingCache != null) {
+          database.delete(existingCache);
+        }
         database.save(cache);
+
+
       }
     } catch (Exception e) {
       e.printStackTrace();
     }
+
+    System.out.println("cache count: " + database.countClass(Cache.class));
+    System.out.println("Log count: "+ database.countClass(Log.class));
+    System.out.println("Waypoint count: "+ database.countClass(Waypoint.class));
+    System.out.println("Attribute count: "+ database.countClass(Attribute.class));
 
     fireEvent(new ProgressEvent("Database",
           ProgressEvent.State.FINISHED,
@@ -61,11 +69,27 @@ public class CacheServiceImpl implements CacheService {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
+  public Cache findCacheById(Long id) {
+    Cache foundCache = null;
+
+    try {
+      OObjectDatabaseTx database = dbService.getDatabase();
+      String query = "select * from Cache where id="+id;
+      List<Cache> result = database.query(new OSQLSynchQuery<Cache>(query));
+      if (result != null && result.size() > 0) {
+        foundCache = result.get(0);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return foundCache;
+  }
+
+
+  @Override
   public List<Cache> getAllCaches(CacheSortField sortField, SortDirection direction) {
 
     List<Cache> caches = new ArrayList<>();
-
     try {
       OObjectDatabaseTx database = dbService.getDatabase();
       String query = "select * from Cache order by "+sortField.getFieldName()+" "+direction.toString();
@@ -130,9 +154,6 @@ public class CacheServiceImpl implements CacheService {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void storeCacheList(CacheList list) {
     OObjectDatabaseTx database = dbService.getDatabase();

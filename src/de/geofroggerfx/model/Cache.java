@@ -25,6 +25,8 @@
  */
 package de.geofroggerfx.model;
 
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.List;
 
 /**
@@ -38,9 +40,12 @@ public class Cache {
   private boolean found;
   private String name;
   private String placedBy;
+  @OneToOne(orphanRemoval = true)
   private User owner;
+  @OneToOne(orphanRemoval = true)
   private Type type;
   private String container;
+  @OneToMany(orphanRemoval = true)
   private List<Attribute> attributes;
   private String difficulty;
   private String terrain;
@@ -51,8 +56,11 @@ public class Cache {
   private String longDescription;
   private boolean longDescriptionHtml;
   private String encodedHints;
+  @OneToMany(orphanRemoval = true)
   private List<Log> logs;
+  @OneToMany(orphanRemoval = true)
   private List<TravelBug> travelBugs;
+  @OneToOne(orphanRemoval = true)
   private Waypoint mainWayPoint;
 
   public Waypoint getMainWayPoint() {

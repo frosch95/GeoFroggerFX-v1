@@ -25,6 +25,7 @@
  */
 package de.geofroggerfx.model;
 
+import javax.persistence.OneToOne;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -36,6 +37,7 @@ public class Log {
   private Long id;
   private Date date;
   private String type;
+  @OneToOne(orphanRemoval = true)
   private User finder;
   private boolean textEncoded;
   private String text;

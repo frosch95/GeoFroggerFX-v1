@@ -44,6 +44,13 @@ public interface CacheService {
   void storeCaches(List<Cache> caches);
 
   /**
+   * find a single cache by id
+   * @param id id of the cache
+   * @return single cache
+   */
+  Cache findCacheById(Long id);
+
+  /**
    * Receive all caches from the database
    * @param sortField sort the list based on the field
    * @param direction sort direction (ASC/DESC)
