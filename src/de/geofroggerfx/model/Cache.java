@@ -25,22 +25,22 @@
  */
 package de.geofroggerfx.model;
 
-import javax.persistence.*;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.List;
 
 /**
  * @author Andreas Billmann
  */
-@Entity
 public class Cache {
 
-  @Id
   private Long id;
   private boolean available;
   private boolean archived;
   private boolean found;
   private String name;
   private String placedBy;
+  @OneToOne(orphanRemoval = true)
   private User owner;
   private Type type;
   private String container;
@@ -54,11 +54,13 @@ public class Cache {
   private String longDescription;
   private boolean longDescriptionHtml;
   private String encodedHints;
+  @OneToMany(orphanRemoval = true)
   private List<Log> logs;
+  @OneToMany(orphanRemoval = true)
   private List<TravelBug> travelBugs;
+  @OneToOne(orphanRemoval = true)
   private Waypoint mainWayPoint;
 
-  @OneToOne(fetch=FetchType.LAZY)
   public Waypoint getMainWayPoint() {
     return mainWayPoint;
   }
@@ -107,7 +109,6 @@ public class Cache {
     this.placedBy = placedBy;
   }
 
-  @OneToOne(fetch=FetchType.LAZY)
   public User getOwner() {
     return owner;
   }
@@ -116,7 +117,6 @@ public class Cache {
     this.owner = owner;
   }
 
-  @Enumerated(EnumType.STRING)
   public Type getType() {
     return type;
   }
@@ -133,7 +133,6 @@ public class Cache {
     this.container = container;
   }
 
-  @ManyToMany(fetch=FetchType.LAZY)
   public List<Attribute> getAttributes() {
     return attributes;
   }
@@ -214,7 +213,6 @@ public class Cache {
     this.encodedHints = encodedHints;
   }
 
-  @OneToMany(fetch=FetchType.LAZY)
   public List<Log> getLogs() {
     return logs;
   }
@@ -223,7 +221,6 @@ public class Cache {
     this.logs = logs;
   }
 
-  @OneToMany(fetch=FetchType.LAZY)
   public List<TravelBug> getTravelBugs() {
     return travelBugs;
   }

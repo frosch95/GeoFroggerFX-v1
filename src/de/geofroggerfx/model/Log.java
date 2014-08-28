@@ -25,19 +25,19 @@
  */
 package de.geofroggerfx.model;
 
-import javax.persistence.*;
+import javax.persistence.OneToOne;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author Andreas Billmann
  */
-@Entity
 public class Log {
 
-  @Id
   private Long id;
-  private LocalDateTime date;
+  private Date date;
   private String type;
+  @OneToOne(orphanRemoval = true)
   private User finder;
   private boolean textEncoded;
   private String text;
@@ -50,11 +50,11 @@ public class Log {
     this.id = id;
   }
 
-  public LocalDateTime getDate() {
+  public Date getDate() {
     return date;
   }
 
-  public void setDate(LocalDateTime date) {
+  public void setDate(Date date) {
     this.date = date;
   }
 
@@ -66,7 +66,6 @@ public class Log {
     this.type = type;
   }
 
-  @OneToOne(cascade = CascadeType.PERSIST)
   public User getFinder() {
     return finder;
   }

@@ -25,19 +25,13 @@
  */
 package de.geofroggerfx.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.util.List;
 
 /**
  * @author Andreas Billmann
  */
-@Entity
 public class CacheList {
 
-  @Id
   private String name;
 
   private List<Cache> caches;
@@ -50,7 +44,6 @@ public class CacheList {
     this.name = name;
   }
 
-  @OneToMany(fetch= FetchType.LAZY)
   public List<Cache> getCaches() {
     return caches;
   }

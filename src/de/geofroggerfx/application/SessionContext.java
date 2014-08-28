@@ -75,10 +75,10 @@ public class SessionContext {
 
   private void fireSessionEvent(String key) {
     if (sessionListeners.containsKey(key)) {
-      final List<SessionContextListener> listenerList = sessionListeners.get(key);
-      for (final SessionContextListener listener : listenerList) {
-        listener.sessionContextChanged();
-      }
+      sessionListeners.
+          get(key).
+          stream().
+          forEach(SessionContextListener::sessionContextChanged);
     }
   }
 }

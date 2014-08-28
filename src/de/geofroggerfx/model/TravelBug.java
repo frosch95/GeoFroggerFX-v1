@@ -25,16 +25,11 @@
  */
 package de.geofroggerfx.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 /**
  * @author Andreas Billmann
  */
-@Entity
 public class TravelBug {
 
-  @Id
   private Long id;
   private String ref;
   private String name;

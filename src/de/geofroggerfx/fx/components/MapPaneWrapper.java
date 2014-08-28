@@ -26,8 +26,6 @@
 package de.geofroggerfx.fx.components;
 
 import de.geofroggerfx.fx.utils.JavaFXUtils;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.Pane;
 import jfxtras.labs.map.MapPane;
 import jfxtras.labs.map.render.MapMarkable;
@@ -63,20 +61,14 @@ public class MapPaneWrapper extends Pane {
   }
 
   private void setSizeListener() {
-    this.widthProperty().addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-        Double width = (Double) newValue;
-        mapPane.setMapWidth(width);
-      }
+    this.widthProperty().addListener((observable, oldValue, newValue) -> {
+      Double width = (Double) newValue;
+      mapPane.setMapWidth(width);
     });
 
-    this.heightProperty().addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-        Double height = (Double) newValue;
-        mapPane.setMapHeight(height);
-      }
+    this.heightProperty().addListener((observable, oldValue, newValue) -> {
+      Double height = (Double) newValue;
+      mapPane.setMapHeight(height);
     });
   }
 }
