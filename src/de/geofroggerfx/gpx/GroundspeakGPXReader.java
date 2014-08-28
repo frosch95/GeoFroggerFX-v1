@@ -43,8 +43,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * TODO: describe the class
- *
  * @author Andreas Billmann
  */
 public class GroundspeakGPXReader implements GPXReader {
@@ -347,25 +345,17 @@ public class GroundspeakGPXReader implements GPXReader {
       final List attributes = new ArrayList<>();
       cache.setAttributes(attributes);
       for (Element attributeElement : attributesElement.getChildren()) {
-        final Attribute attribute = new Attribute();
-        attributes.add(attribute);
-        setId(attributeElement, attribute);
-        setInc(attributeElement, attribute);
-        setText(attributeElement, attribute);
+        try {
+          final Attribute attribute = Attribute.groundspeakAttributeToAttribute(
+              attributeElement.getAttribute(ID).getLongValue(),
+              attributeElement.getAttribute(INC).getBooleanValue(),
+              attributeElement.getTextTrim());
+          attributes.add(attribute);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       }
     }
-  }
-
-  private void setText(Element attributeElement, Attribute attribute) {
-    attribute.setText(attributeElement.getTextTrim());
-  }
-
-  private void setInc(Element attributeElement, Attribute attribute) throws DataConversionException {
-    attribute.setInc(attributeElement.getAttribute(INC).getBooleanValue());
-  }
-
-  private void setId(Element attributeElement, Attribute attribute) throws DataConversionException {
-    attribute.setId(attributeElement.getAttribute(ID).getLongValue());
   }
 
   private void setContainer(Element cacheElement, Cache cache) {

@@ -42,10 +42,8 @@ public class Cache {
   private String placedBy;
   @OneToOne(orphanRemoval = true)
   private User owner;
-  @OneToOne(orphanRemoval = true)
   private Type type;
   private String container;
-  @OneToMany(orphanRemoval = true)
   private List<Attribute> attributes;
   private String difficulty;
   private String terrain;

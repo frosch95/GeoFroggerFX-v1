@@ -25,12 +25,11 @@
  */
 package de.geofroggerfx.fx.cachedetails;
 
-import de.geofroggerfx.application.SessionConstants;
 import de.geofroggerfx.application.SessionContext;
 import de.geofroggerfx.application.SessionContextListener;
-import de.geofroggerfx.fx.components.MapPaneWrapper;
 import de.geofroggerfx.fx.components.GeocachingIcons;
 import de.geofroggerfx.fx.components.IconManager;
+import de.geofroggerfx.fx.components.MapPaneWrapper;
 import de.geofroggerfx.model.Cache;
 import de.geofroggerfx.model.CacheList;
 import de.geofroggerfx.service.CacheService;
@@ -117,12 +116,6 @@ public class CacheDetailsController implements Initializable, SessionContextList
   @Inject
   private CacheService cacheService;
 
-  /**
-   * Initializes the controller class.
-   *
-   * @param url
-   * @param rb
-   */
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     setSessionListener();

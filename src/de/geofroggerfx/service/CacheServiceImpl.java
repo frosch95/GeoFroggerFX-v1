@@ -1,10 +1,31 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2013, Andreas Billmann <abi@geofroggerfx.de>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * * Redistributions of source code must retain the above copyright notice, this
+ *   list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 package de.geofroggerfx.service;
 
+import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import de.geofroggerfx.application.ProgressEvent;
@@ -37,31 +58,44 @@ public class CacheServiceImpl implements CacheService {
     OObjectDatabaseTx database = dbService.getDatabase();
 
     try {
-      int currentCacheNumber = 0;
-      int numberOfCaches = caches.size();
+      long start = System.currentTimeMillis();
       for (Cache cache : caches) {
-            currentCacheNumber++;
-          fireEvent(new ProgressEvent("Database",
-              ProgressEvent.State.RUNNING,
-              "Save caches to Database " + currentCacheNumber + " / " + numberOfCaches,
-              (double) currentCacheNumber / (double) numberOfCaches));
-
         Cache existingCache = findCacheById(cache.getId());
         if (existingCache != null) {
           database.delete(existingCache);
         }
-        database.save(cache);
-
-
       }
+
+      long deletes = System.currentTimeMillis();
+
+      int currentCacheNumber = 0;
+      int numberOfCaches = caches.size();
+      database.declareIntent( new OIntentMassiveInsert() );
+      for (Cache cache : caches) {
+        currentCacheNumber++;
+        fireEvent(new ProgressEvent("Database",
+            ProgressEvent.State.RUNNING,
+            "Save caches to Database " + currentCacheNumber + " / " + numberOfCaches,
+            (double) currentCacheNumber / (double) numberOfCaches));
+        database.save(cache);
+      }
+
+
+      long saves = System.currentTimeMillis();
+
+      System.out.println("Time to delete: "+(deletes-start));
+      System.out.println("Time to save: "+(saves-deletes));
+      System.out.println("Time total: "+(saves-start));
+
     } catch (Exception e) {
       e.printStackTrace();
+    } finally {
+      database.declareIntent( null );
     }
 
     System.out.println("cache count: " + database.countClass(Cache.class));
     System.out.println("Log count: "+ database.countClass(Log.class));
     System.out.println("Waypoint count: "+ database.countClass(Waypoint.class));
-    System.out.println("Attribute count: "+ database.countClass(Attribute.class));
 
     fireEvent(new ProgressEvent("Database",
           ProgressEvent.State.FINISHED,

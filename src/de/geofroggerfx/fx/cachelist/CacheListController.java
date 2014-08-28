@@ -25,7 +25,6 @@
  */
 package de.geofroggerfx.fx.cachelist;
 
-import de.geofroggerfx.application.SessionConstants;
 import de.geofroggerfx.application.SessionContext;
 import de.geofroggerfx.fx.components.CacheListCell;
 import de.geofroggerfx.fx.components.IconManager;
@@ -35,14 +34,10 @@ import de.geofroggerfx.model.CacheList;
 import de.geofroggerfx.service.CacheService;
 import de.geofroggerfx.service.CacheSortField;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.util.Callback;
-import org.scenicview.ScenicView;
 
 import javax.inject.Inject;
 import java.net.URL;
@@ -84,12 +79,6 @@ public class CacheListController implements Initializable {
   @FXML
   private ComboBox cacheListComboBox;
 
-  /**
-   * Initializes the controller class.
-   *
-   * @param url
-   * @param rb
-   */
   @Override
   @SuppressWarnings("unchecked")
   public void initialize(URL url, ResourceBundle rb) {
@@ -99,9 +88,9 @@ public class CacheListController implements Initializable {
     setCellFactory();
 
     cacheListView.getSelectionModel().selectedItemProperty().addListener(
-        (ChangeListener<Cache>) (ObservableValue<? extends Cache> ov, Cache oldValue, Cache newValue) ->
-            sessionContext.setData(CURRENT_CACHE, newValue)
+        observable -> sessionContext.setData(CURRENT_CACHE, cacheListView.getSelectionModel().getSelectedItem())
     );
+
 
     initCacheListComboBox();
     initListMenuButton();
@@ -110,8 +99,8 @@ public class CacheListController implements Initializable {
   @SuppressWarnings("unchecked")
   private void setCellFactory() {
     cacheListView.setCellFactory(
-        (Callback<ListView<Cache>, CacheListCell>)
-        (ListView<Cache> p) -> new CacheListCell());
+        param -> new CacheListCell()
+    );
   }
 
   private void setSessionListener() {
