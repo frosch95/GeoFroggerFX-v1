@@ -23,46 +23,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package de.geofroggerfx.sql;
+package de.geofroggerfx.database;
 
-import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
-import com.orientechnologies.orient.core.db.record.ODatabaseRecord;
+
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 
 /**
  * @author Andreas
  */
-public class DatabaseServiceImpl implements DatabaseService {
-
-  private static final String PERSISTENCE_UNIT_NAME = "geocaches";
-  private OObjectDatabaseTx db ;
-
-  public DatabaseServiceImpl() {
-    db = new OObjectDatabaseTx("plocal:./"+PERSISTENCE_UNIT_NAME);
-    if (!db.exists()) {
-      db.create();
-    } else {
-      db.open("admin", "admin");
-    }
-
-
-    db.getEntityManager().registerEntityClasses("de.geofroggerfx.model");
-  }
-
-
-  @Override
-  public OObjectDatabaseTx getDatabase() {
-    assert (db != null) : "no database available";
-    ODatabaseRecordThreadLocal.INSTANCE.set(db.getUnderlying().getUnderlying());
-    return db;
-  }
-
-  @Override
-  public void close() {
-    assert (db != null) : "no database available";
-    if (!db.isClosed()) {
-      db.close();
-    }
-  }
-
+public interface DatabaseService {
+  OObjectDatabaseTx getDatabase();
+  void close();
 }

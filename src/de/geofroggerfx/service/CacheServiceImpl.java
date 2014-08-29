@@ -31,7 +31,7 @@ import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import de.geofroggerfx.application.ProgressEvent;
 import de.geofroggerfx.application.ProgressListener;
 import de.geofroggerfx.model.*;
-import de.geofroggerfx.sql.DatabaseService;
+import de.geofroggerfx.database.DatabaseService;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -167,7 +167,7 @@ public class CacheServiceImpl implements CacheService {
     boolean doesExist = false;
     try {
       OObjectDatabaseTx database = dbService.getDatabase();
-      String query = "select * from CacheList l where l.name = :name";
+      String query = "select * from CacheList where name = '"+name+"'";
       List<CacheList> result = database.query(new OSQLSynchQuery<CacheList>(query));
       if (result != null) {
         doesExist = result.size() > 0;

@@ -52,7 +52,7 @@ dependencies {
     //compile group: 'org.jfxtras', name: 'jfxtras-labs', version: '8.0-r1-SNAPSHOT' this is not an actual version and the map part is missing
     compile files('lib/JFXtras/jfxtras-labs-8.0-r1-SNAPSHOT.jar', 'lib/ScenicView/ScenicView.jar')
     compile group: 'org.jdom', name: 'jdom2', version: '2.0.5'
-    compile group: 'org.controlsfx', name: 'controlsfx', version: '8.0.6'
+    compile group: 'org.controlsfx', name: 'controlsfx', version: '8.0.6_20'
     compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.2.1'
     compile group: 'org.jboss.weld.se', name: 'weld-se', version: '2.2.0.Final'
     compile group: 'com.orientechnologies', name: 'orient-commons', version: '2.0-SNAPSHOT'

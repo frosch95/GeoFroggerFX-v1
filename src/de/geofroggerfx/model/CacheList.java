@@ -25,6 +25,7 @@
  */
 package de.geofroggerfx.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class CacheList {
 
   private String name;
 
-  private List<Cache> caches;
+  private List<Cache> caches = new ArrayList<>();
 
   public String getName() {
     return name;

@@ -27,13 +27,12 @@ package de.geofroggerfx.fx;
 
 import de.geofroggerfx.fx.utils.ApplicationParametersProvider;
 import de.geofroggerfx.fx.utils.StartupScene;
-import de.geofroggerfx.sql.DatabaseService;
+import de.geofroggerfx.database.DatabaseService;
 import javafx.application.Application;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
-import org.scenicview.ScenicView;
 
 import javax.enterprise.util.AnnotationLiteral;
 
