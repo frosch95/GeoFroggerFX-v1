@@ -78,3 +78,7 @@ run.doFirst {
         into 'build/classes/main/META-INF/'
     }
 }
+
+applicationDistribution.from("plugins") {
+    into "plugins"
+}
