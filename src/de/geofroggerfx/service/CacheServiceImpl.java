@@ -123,6 +123,7 @@ public class CacheServiceImpl implements CacheService {
   @Override
   public List<Cache> getAllCaches(CacheSortField sortField, SortDirection direction) {
 
+    long start = System.currentTimeMillis();
     List<Cache> caches = new ArrayList<>();
     try {
       OObjectDatabaseTx database = dbService.getDatabase();
@@ -134,6 +135,8 @@ public class CacheServiceImpl implements CacheService {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    long end = System.currentTimeMillis();
+    System.out.println("Load all caches ("+caches.size()+"): "+(end-start));
 
     return caches;
   }
